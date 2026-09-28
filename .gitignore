@@ -1,0 +1,8 @@
+node_modules
+dist
+*.local
+.DS_Store
+# Générés par construire-pages.mjs à chaque build.
+/*.html
+/public/sitemap.xml
+/public/robots.txt
