@@ -49,9 +49,9 @@ function Simulateur() {
         </div>
 
         <Courbes titre="Évolution sur la durée" series={[
-          { nom: 'Capital investi', couleur: '#2b251e', valeurs: r.rows.map(x => x.capitalInvesti) },
-          { nom: 'Capital, revenus réinvestis', couleur: '#b0894f', valeurs: r.rows.map(x => x.capitalReinvesti) },
-          { nom: 'Revenus perçus cumulés', couleur: '#5f7d99', valeurs: r.rows.map(x => x.revenusCumulesNets), pointille: true },
+          { nom: 'Capital investi', couleur: '#16433a', valeurs: r.rows.map(x => x.capitalInvesti) },
+          { nom: 'Capital, revenus réinvestis', couleur: '#c8703a', valeurs: r.rows.map(x => x.capitalReinvesti) },
+          { nom: 'Revenus perçus cumulés', couleur: '#6b8aa0', valeurs: r.rows.map(x => x.revenusCumulesNets), pointille: true },
         ]} />
 
         <details className="detail">

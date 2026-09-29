@@ -141,17 +141,17 @@ export function Courbes({ titre, series, marqueur }: {
         }}>
         {graduations.map(v => (
           <g key={v}>
-            <line x1={g} x2={W - d} y1={y(v)} y2={y(v)} stroke={v === 0 ? '#b8ad9c' : '#e7e0d4'} />
-            <text x={g - 8} y={y(v) + 4} textAnchor="end" fontSize="11" fill="#857e74">{abrege(v)}</text>
+            <line x1={g} x2={W - d} y1={y(v)} y2={y(v)} stroke={v === 0 ? '#b9bfb9' : '#e6e8e3'} />
+            <text x={g - 8} y={y(v) + 4} textAnchor="end" fontSize="11" fill="#7a827d">{abrege(v)}</text>
           </g>
         ))}
         {Array.from({ length: n }, (_, i) => i + 1).filter(a => a === 1 || a % pasX === 0).map(a => (
-          <text key={a} x={x(a - 1)} y={H - 8} textAnchor="middle" fontSize="11" fill="#857e74">{a}</text>
+          <text key={a} x={x(a - 1)} y={H - 8} textAnchor="middle" fontSize="11" fill="#7a827d">{a}</text>
         ))}
         {marqueur && marqueur.annee <= n && (
           <g>
-            <line x1={x(marqueur.annee - 1)} x2={x(marqueur.annee - 1)} y1={h} y2={H - b} stroke="#b0894f" strokeDasharray="4 4" />
-            <text x={x(marqueur.annee - 1) + 6} y={h + 12} fontSize="11.5" fill="#8a6a38">{marqueur.texte}</text>
+            <line x1={x(marqueur.annee - 1)} x2={x(marqueur.annee - 1)} y1={h} y2={H - b} stroke="#c8703a" strokeDasharray="4 4" />
+            <text x={x(marqueur.annee - 1) + 6} y={h + 12} fontSize="11.5" fill="#a55a2b">{marqueur.texte}</text>
           </g>
         )}
         {series.map(s => (
@@ -161,8 +161,8 @@ export function Courbes({ titre, series, marqueur }: {
         ))}
         {survol !== null && (
           <g>
-            <line x1={x(survol)} x2={x(survol)} y1={h} y2={H - b} stroke="#2b251e" opacity=".25" />
-            {series.map(s => <circle key={s.nom} cx={x(survol)} cy={y(s.valeurs[survol])} r={4.5} fill={s.couleur} stroke="#fffdfa" strokeWidth={2} />)}
+            <line x1={x(survol)} x2={x(survol)} y1={h} y2={H - b} stroke="#15201c" opacity=".25" />
+            {series.map(s => <circle key={s.nom} cx={x(survol)} cy={y(s.valeurs[survol])} r={4.5} fill={s.couleur} stroke="#ffffff" strokeWidth={2} />)}
           </g>
         )}
       </svg>

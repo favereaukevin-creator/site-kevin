@@ -58,9 +58,9 @@ function Simulateur() {
 
         {annees > 1 && (
           <Courbes titre="Ce que le PER construit" series={[
-            { nom: 'Capital du contrat', couleur: '#b0894f', valeurs: courbe.map(c => c.capitalRetraite) },
-            { nom: 'Versements cumulés', couleur: '#2b251e', valeurs: courbe.map(c => c.totalVerse) },
-            { nom: 'Impôt économisé cumulé', couleur: '#3f6b55', valeurs: courbe.map(c => c.totalEconomies), pointille: true },
+            { nom: 'Capital du contrat', couleur: '#c8703a', valeurs: courbe.map(c => c.capitalRetraite) },
+            { nom: 'Versements cumulés', couleur: '#16433a', valeurs: courbe.map(c => c.totalVerse) },
+            { nom: 'Impôt économisé cumulé', couleur: '#6b8aa0', valeurs: courbe.map(c => c.totalEconomies), pointille: true },
           ]} />
         )}
 

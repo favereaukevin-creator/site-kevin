@@ -64,8 +64,8 @@ function Simulateur() {
         <Courbes titre="Patrimoine de chacun, année après année"
           marqueur={r.anneeBascule ? { annee: r.anneeBascule, texte: 'bascule' } : null}
           series={[
-            { nom: 'Propriétaire', couleur: '#b0894f', valeurs: r.annees.map(a => a.patrimoineProprietaire) },
-            { nom: 'Locataire', couleur: '#5f7d99', valeurs: r.annees.map(a => a.patrimoineLocataire) },
+            { nom: 'Propriétaire', couleur: '#c8703a', valeurs: r.annees.map(a => a.patrimoineProprietaire) },
+            { nom: 'Locataire', couleur: '#6b8aa0', valeurs: r.annees.map(a => a.patrimoineLocataire) },
           ]} />
 
         <details className="detail">

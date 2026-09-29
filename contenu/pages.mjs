@@ -2,49 +2,122 @@
 
 import { ARENSEIGNER } from './editeur.mjs'
 import { A_COMPLETER } from './a-completer.mjs'
-import { PUBLIQUE, NOM, METIER, CONTACT, LIGNEE, monogramme } from './gabarit.mjs'
+import { PUBLIQUE, NOM, METIER, CONTACT, LIGNEE, ICONES } from './gabarit.mjs'
 
 const aCompleter = (texte) => PUBLIQUE ? '' : `
           <div class="a-completer"><strong>À compléter —</strong> ${texte}</div>`
 
 // ---------------------------------------------------------------- Accueil
+const domaine = (icone, titre, texte) => `
+          <div class="domaine">
+            <div class="icone">${ICONES[icone]}</div>
+            <h3>${titre}</h3>
+            <p>${texte}</p>
+          </div>`
+
+// Chiffres des deux exemples : ceux des cas types verrouillés par les tests
+// (src/moteur/per.test.ts et acheterLouer.test.ts). Les changer là-bas d'abord.
 const accueil = {
   slug: 'index',
   titre: NOM,
-  description: `${NOM}, ${METIER.toLowerCase()} : épargne et assurance-vie, retraite, immobilier, financement et transmission. Simulateurs gratuits et prise de rendez-vous.`,
+  description: `${NOM}, ${METIER.toLowerCase()} : une approche globale de votre patrimoine — épargne, immobilier, retraite, transmission. Simulateurs gratuits et prise de rendez-vous.`,
   contenu: `
-    <section class="heros bloc">
-      <div class="apparait">${monogramme()}</div>
-      <h1 class="apparait apparait-2">${NOM}</h1>
-      <p class="surtitre apparait apparait-2">${METIER}</p>
-      <hr class="filet apparait apparait-3" />
-      <p class="accroche apparait apparait-3">
-        Un accompagnement clair et <em>chiffré</em> pour faire grandir, protéger et
-        transmettre votre patrimoine — épargne et assurance-vie, retraite, immobilier,
-        financement et succession — pour les particuliers comme pour les chefs d'entreprise.
-      </p>
-      <div class="actions apparait apparait-4">
-        <a class="btn btn--grand" href="/rendez-vous.html">Prendre rendez-vous <span aria-hidden="true">→</span></a>
-        <a class="btn-lien" href="/simulateurs.html">Découvrir les simulateurs <span aria-hidden="true">→</span></a>
+    <section class="bloc heros">
+      <div class="apparait">
+        <span class="pastille">ORIAS ${ARENSEIGNER.orias} · Assurance et financement</span>
+        <h1>Votre patrimoine, <span class="surligne">pensé</span> comme un tout.</h1>
+        <p class="chapo">
+          Une approche globale et méthodique, bâtie autour de votre situation et de vos
+          projets — épargne, immobilier, retraite et transmission — pour les particuliers
+          comme pour les entreprises.
+        </p>
+        <div class="actions">
+          <a class="btn btn--grand" href="/rendez-vous.html">Prendre rendez-vous</a>
+          <a class="btn btn--grand btn--contour" href="/simulateurs.html">Essayer un simulateur</a>
+        </div>
+        <div class="preuves">
+          <span><strong>Chiffré</strong>chaque scénario, année après année</span>
+          <span><strong>Expliqué</strong>hypothèses écrites noir sur blanc</span>
+          <span><strong>À jour</strong>règles suivies à la source</span>
+        </div>
+      </div>
+      <div class="exemples apparait apparait-2" aria-label="Exemples chiffrés">
+        <div class="exemple">
+          <div class="exemple-tete">Gain fiscal PER <a href="/simulateur-per.html">Simuler →</a></div>
+          <div class="exemple-chiffre">900 € / an</div>
+          <p>d'impôt en moins pour 3 000 € versés, à 30 % de tranche marginale.</p>
+          <div class="jauge"><span style="width:30%"></span></div>
+        </div>
+        <div class="exemple">
+          <div class="exemple-tete">Acheter ou louer <a href="/simulateur-acheter-louer.html">Simuler →</a></div>
+          <div class="exemple-chiffre">Après 7 ans</div>
+          <p>l'achat d'un bien à 250 000 € dépasse la location à 1 000 € par mois.</p>
+          <div class="jauge"><span style="width:62%"></span></div>
+        </div>
+        <p class="mention-exemple">Exemples indicatifs, hypothèses détaillées dans chaque simulateur.</p>
+      </div>
+    </section>
+
+    <section class="section section--blanche">
+      <div class="bloc">
+        <div class="section-tete">
+          <p class="surtitre">Accompagnement</p>
+          <h2>Chaque décision replacée dans l'ensemble</h2>
+          <p>Un placement, un crédit ou une donation ne se jugent jamais seuls : ils se regardent à l'échelle de tout votre patrimoine.</p>
+        </div>
+        <div class="domaines">
+${domaine('epargne', 'Épargne', "Faire travailler votre épargne selon votre horizon et votre tolérance au risque.")}
+${domaine('retraite', 'Retraite', "Anticiper vos revenus futurs et tirer parti des dispositifs déductibles.")}
+${domaine('immobilier', 'Immobilier & financement', "Résidence principale, investissement, crédit : structurer le projet et son financement.")}
+${domaine('transmission', 'Transmission', "Préparer la suite, protéger vos proches et alléger ce qu'ils auront à payer.")}
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="bloc">
+        <div class="section-tete">
+          <p class="surtitre">Méthode</p>
+          <h2>Trois temps, pas de raccourci</h2>
+        </div>
+        <div class="etapes">
+          <div class="etape"><h3>L'état des lieux</h3><p>Revenus, charges, patrimoine, projets et contraintes : on part de votre situation, jamais d'un produit.</p></div>
+          <div class="etape"><h3>Les scénarios chiffrés</h3><p>Chaque piste est projetée dans le temps, avec ses hypothèses, pour comparer avant de décider.</p></div>
+          <div class="etape"><h3>La décision, puis le suivi</h3><p>Une règle fiscale change ? Le dossier est revu. Une décision patrimoniale doit être comprise, pas seulement signée.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="bloc">
+      <div class="bandeau">
+        <div>
+          <h2>Un projet, une question ?</h2>
+          <p>Faisons le point ensemble sur votre situation.</p>
+        </div>
+        <div class="actions">
+          <a class="btn btn--clair btn--grand" href="/rendez-vous.html">Prendre rendez-vous</a>
+          <a class="btn btn--transparent btn--grand" href="tel:${CONTACT.telephoneLien}">${CONTACT.telephone}</a>
+        </div>
       </div>
     </section>`,
 }
 
 // ---------------------------------------------------------------- Simulateurs
-const carte = ({ href, ton, surtitre, titre, texte, etiquettes, externe = false }) => `
-        <a class="carte carte--${ton}" href="${href}"${externe ? ' rel="noopener"' : ''}>
-          <span class="surtitre">${surtitre}</span>
+const outil = ({ href, icone, categorie, titre, texte, externe = false }) => `
+        <a class="outil" href="${href}"${externe ? ' rel="noopener"' : ''}>
+          <div class="icone">${ICONES[icone]}</div>
+          <span class="categorie">${categorie}</span>
           <h3>${titre}</h3>
           <p>${texte}</p>
-          <span class="etiquettes">${etiquettes.map(e => `<span class="etiquette">${e}</span>`).join('')}</span>
-          <span class="carte-pied">${externe ? 'Ouvrir sur Lignée' : 'Découvrir le simulateur'}</span>
+          <span class="lien">${externe ? 'Ouvrir sur Lignée' : 'Lancer le simulateur'} <span aria-hidden="true">→</span></span>
         </a>`
 
-const bientot = (surtitre, titre) => `
-        <div class="carte carte--bientot">
-          <span class="surtitre">${surtitre}</span>
+const bientot = (icone, categorie, titre) => `
+        <div class="outil outil--bientot">
+          <div class="icone">${ICONES[icone]}</div>
+          <span class="categorie">${categorie}</span>
           <h3>${titre}</h3>
-          <span class="badge">EN PRÉPARATION</span>
+          <span class="lien">En préparation</span>
         </div>`
 
 const simulateurs = {
@@ -53,153 +126,106 @@ const simulateurs = {
   description: 'Simulateurs patrimoniaux gratuits : SCPI, gain fiscal PER, acheter ou louer, droits de succession. Calculs faits dans votre navigateur, rien n’est transmis.',
   contenu: `
     <section class="bloc">
-      <div style="padding-top:48px" class="apparait">${monogramme()}</div>
-      <h1 class="titre apparait apparait-2">Simulateurs</h1>
-      <p class="sous-titre apparait apparait-2">
-        Choisissez l'outil adapté à votre projet. Les calculs se font dans votre
-        navigateur : rien n'est transmis, rien n'est conservé.
-      </p>
-      <div class="grille apparait apparait-3">
-${carte({ href: '/simulateur-scpi.html', ton: 'ardoise', surtitre: 'Immobilier & revenus', titre: 'SCPI',
-  texte: 'Projeter le capital investi et les revenus perçus, avec un versement initial et des versements programmés, dividendes distribués ou réinvestis.',
-  etiquettes: ['Revenus', 'Réinvestissement'] })}
-${carte({ href: '/simulateur-per.html', ton: 'sauge', surtitre: 'Retraite & fiscalité', titre: 'Gain fiscal PER',
-  texte: "Estimer l'économie d'impôt d'un versement déductible, dans la limite du plafond 2026, et le capital constitué à la retraite.",
-  etiquettes: ['Déduction', 'Tranche marginale'] })}
-${carte({ href: '/simulateur-acheter-louer.html', ton: 'taupe', surtitre: 'Résidence principale', titre: 'Acheter ou louer',
-  texte: "Comparer, année après année, le patrimoine du propriétaire et celui du locataire qui place son apport.",
-  etiquettes: ['Crédit', 'Année de bascule'] })}
-${carte({ href: LIGNEE + 'simulateur.html', ton: 'crepuscule', surtitre: 'Transmission', titre: 'Droits de succession',
-  texte: 'Estimer les droits dus par chaque héritier : abattements, barème du lien de parenté, assurance-vie avant et après 70 ans.',
-  etiquettes: ['Barèmes 2026', 'Assurance-vie'], externe: true })}
+      <div class="page-tete apparait">
+        <p class="surtitre">Simulateurs</p>
+        <h1>Des chiffres avant les décisions</h1>
+        <p>Des outils gratuits pour se faire une première idée. Les calculs se font dans votre navigateur : rien n'est transmis, rien n'est conservé.</p>
       </div>
-      <p class="section-titre">Prochainement</p>
-      <div class="grille">
-${bientot('Financement', "Capacité d'emprunt")}
-${bientot('Immobilier & fiscalité', 'Investissement locatif')}
+      <div class="outils apparait apparait-2">
+${outil({ href: '/simulateur-scpi.html', icone: 'scpi', categorie: 'Immobilier & revenus', titre: 'SCPI',
+  texte: 'Capital investi et revenus perçus, avec un versement initial et des versements programmés, dividendes distribués ou réinvestis.' })}
+${outil({ href: '/simulateur-per.html', icone: 'per', categorie: 'Retraite & fiscalité', titre: 'Gain fiscal PER',
+  texte: "Économie d'impôt d'un versement déductible, dans la limite du plafond 2026, et capital constitué à la retraite." })}
+${outil({ href: '/simulateur-acheter-louer.html', icone: 'maison', categorie: 'Résidence principale', titre: 'Acheter ou louer',
+  texte: "Le patrimoine du propriétaire et celui du locataire qui place son apport, comparés année après année." })}
+${outil({ href: LIGNEE + 'simulateur.html', icone: 'succession', categorie: 'Transmission', titre: 'Droits de succession',
+  texte: 'Droits dus par chaque héritier : abattements, barème du lien de parenté, assurance-vie avant et après 70 ans.', externe: true })}
+${bientot('credit', 'Financement', "Capacité d'emprunt")}
+${bientot('locatif', 'Immobilier & fiscalité', 'Investissement locatif')}
       </div>
     </section>`,
 }
 
 // ---------------------------------------------------------------- Ressources
-const habilitations = `
-            <ul class="liste-titres">
-              <li><strong>ORIAS n° ${ARENSEIGNER.orias}</strong><span>Registre unique des intermédiaires en assurance, banque et finance — vérifiable sur <a href="https://www.orias.fr" rel="noopener">orias.fr</a></span></li>
-              <li><strong>Mandataire d'intermédiaire d'assurance (MIA)</strong><span>Inscrit depuis le 25 septembre 2026</span></li>
-              <li><strong>Mandataire d'intermédiaire en opérations de banque et en services de paiement (MIOBSP)</strong><span>Inscrit depuis le 17 juillet 2026</span></li>
-              <li><strong>Association professionnelle</strong><span>Adhérent d'${ARENSEIGNER.associationMia.split(',')[0]}</span></li>
-              <li><strong>Autorité de contrôle</strong><span>Autorité de contrôle prudentiel et de résolution (ACPR)</span></li>
-${A_COMPLETER.diplomes.map(d => `              <li><strong>${d.titre}</strong><span>${d.detail}</span></li>`).join('\n')}
-            </ul>${A_COMPLETER.diplomes.length ? '' : aCompleter('tes diplômes et certifications (intitulé, établissement, année).')}`
+const registre = `
+          <ul class="registre">
+            <li><div><strong>ORIAS n° ${ARENSEIGNER.orias}</strong><span>Registre unique des intermédiaires en assurance, banque et finance — vérifiable sur <a href="https://www.orias.fr" rel="noopener">orias.fr</a>.</span></div></li>
+            <li><div><strong>Mandataire d'intermédiaire d'assurance (MIA)</strong><span>Inscrit depuis le 25 septembre 2026.</span></div></li>
+            <li><div><strong>Mandataire d'intermédiaire en opérations de banque et en services de paiement (MIOBSP)</strong><span>Inscrit depuis le 17 juillet 2026.</span></div></li>
+            <li><div><strong>Association professionnelle</strong><span>Adhérent d'${ARENSEIGNER.associationMia.split(',')[0]}.</span></div></li>
+            <li><div><strong>Autorité de contrôle</strong><span>Autorité de contrôle prudentiel et de résolution (ACPR).</span></div></li>
+          </ul>`
+
+const diplomes = A_COMPLETER.diplomes.length
+  ? `<ul class="registre">${A_COMPLETER.diplomes.map(d => `<li><div><strong>${d.titre}</strong><span>${d.detail}</span></div></li>`).join('')}</ul>`
+  : aCompleter('tes diplômes et certifications (intitulé, établissement, année). Tant que la liste est vide, cette rubrique ne s’affiche pas sur le site public.')
 
 const partenaires = A_COMPLETER.partenaires.length
-  ? `<div class="nuage">${A_COMPLETER.partenaires.map(p => `<span>${p}</span>`).join('')}</div>
-            <p style="text-align:center;color:var(--libelle);font-style:italic;margin:26px 0 0;font-size:14px">Liste non exhaustive</p>`
+  ? `<div class="logos">${A_COMPLETER.partenaires.map(p => `<span>${p}</span>`).join('')}</div>
+          <p style="font-size:14px;margin-top:12px">Liste non exhaustive.</p>`
   : aCompleter('la liste des assureurs, sociétés de gestion et banques avec lesquels tu travailles réellement. Tant qu’elle est vide, cette rubrique ne s’affiche pas sur le site public.')
 
-const tuile = (id, numero, titre, texte) => `
-        <button class="tuile-ressource" type="button" data-ouvre="${id}">
-          <span class="numero">${numero}</span>
-          <h2>${titre}</h2>
-          <p>${texte}</p>
-        </button>`
-
-const dialogue = (id, titre, corps) => `
-      <dialog id="${id}" aria-labelledby="${id}-titre">
-        <div class="dialogue">
-          <button class="fermer" type="button" data-ferme aria-label="Fermer">×</button>
-          <h2 id="${id}-titre">${titre}</h2>
-          <hr class="filet" />
-          ${corps}
-        </div>
-      </dialog>`
-
-const avecPartenaires = A_COMPLETER.partenaires.length > 0 || !PUBLIQUE
+const fiche = (titre, corps) => `
+      <div class="fiche">
+        <h2>${titre}</h2>
+        <div>${corps}</div>
+      </div>`
 
 const ressources = {
   slug: 'ressources',
   titre: 'Ressources',
   description: `Habilitations, statuts réglementaires et partenaires de ${NOM}, et guides pour comprendre la transmission de patrimoine.`,
-  script: '/src/dialogues.ts',
   contenu: `
     <section class="bloc">
-      <div style="padding-top:48px" class="apparait">${monogramme()}</div>
-      <h1 class="titre apparait apparait-2">Des <em>habilitations</em> vérifiables, des <em>partenaires</em> solides.</h1>
-      <p class="sous-titre apparait apparait-2">Tout ce qui encadre mon activité, consultable en un clic.</p>
-      <div class="duo apparait apparait-3">
-${tuile('habilitations', '01', 'Diplômes & habilitations', 'Statuts réglementaires, inscription ORIAS et autorité de contrôle.')}
-${avecPartenaires ? tuile('partenaires', '02', 'Partenaires', 'Les assureurs, sociétés de gestion et établissements avec lesquels je travaille.') : ''}
-        <a class="tuile-ressource" href="${LIGNEE}" rel="noopener" style="text-decoration:none">
-          <span class="numero">${avecPartenaires ? '03' : '02'}</span>
-          <h2>Guides Lignée</h2>
-          <p>Succession, donation, assurance-vie, démembrement, PER : les règles expliquées simplement.</p>
-        </a>
+      <div class="page-tete apparait">
+        <p class="surtitre">Ressources</p>
+        <h1>Tout ce qui encadre mon activité</h1>
+        <p>Statuts, inscriptions et partenaires : des informations publiques, vérifiables en un clic.</p>
       </div>
-${dialogue('habilitations', 'Diplômes & habilitations', habilitations)}
-${avecPartenaires ? dialogue('partenaires', 'Partenaires', partenaires) : ''}
+${fiche('Habilitations', registre)}
+${A_COMPLETER.diplomes.length || !PUBLIQUE ? fiche('Diplômes', diplomes) : ''}
+${A_COMPLETER.partenaires.length || !PUBLIQUE ? fiche('Partenaires', partenaires) : ''}
+${fiche('Guides', `
+          <a class="contact" href="${LIGNEE}" rel="noopener" style="max-width:560px">
+            <div class="icone">${ICONES.guide}</div>
+            <div><small>Lignée</small><strong>Comprendre la succession</strong><span>Abattements, donation, assurance-vie, démembrement, PER, prêt familial : les règles expliquées simplement.</span></div>
+          </a>`)}
     </section>`,
 }
 
 // ---------------------------------------------------------------- À propos
-const chapitre = (numero, titre, corps) => `
-          <div class="chapitre">
-            <div class="chapitre-tete"><span class="numero">${numero}</span><h2>${titre}</h2></div>
-            ${corps}
-          </div>`
-
 const parcours = A_COMPLETER.parcours.length
-  ? A_COMPLETER.parcours.map(p => `<p>${p}</p>`).join('\n            ')
+  ? A_COMPLETER.parcours.map(p => `<p>${p}</p>`).join('\n          ')
   : aCompleter('ton parcours en deux ou trois paragraphes : d’où tu viens, ce qui t’a amené au conseil patrimonial, ce que tu en retiens.')
+
+const initiales = NOM.split(' ').map(m => m[0].toLowerCase()).join('')
 
 const aPropos = {
   slug: 'a-propos',
   titre: 'À propos',
   description: `Parcours, méthode et cadre d'exercice de ${NOM}, ${METIER.toLowerCase()}.`,
   contenu: `
-    <section class="bloc" style="padding-top:48px">
-      <div class="apparait" style="margin-bottom:46px">${monogramme()}</div>
-      ${PUBLIQUE ? '' : `<div class="a-completer" style="margin-bottom:34px">
-        <strong>Préversion —</strong> la partie « Méthode » est une proposition de texte, à relire
-        et à valider : elle ne dit que ce que je sais de ta pratique (projets chiffrés, veille à la
-        source, pédagogie). Change tout ce qui ne te ressemble pas.
-      </div>`}
-      <div class="apropos">
-        <div class="portrait apparait">
-          ${A_COMPLETER.photo ? `<img src="${A_COMPLETER.photo}" alt="Portrait de ${NOM}" />` : monogramme(true)}
+    <section class="bloc">
+      <div class="page-tete apparait">
+        <div class="profil">
+          <div class="profil-photo">${A_COMPLETER.photo ? `<img src="${A_COMPLETER.photo}" alt="Portrait de ${NOM}" />` : initiales}</div>
+          <div><p class="surtitre" style="margin:0">À propos</p><h1 style="margin:4px 0 0">${NOM}</h1></div>
         </div>
-        <div class="apparait apparait-2">
-${chapitre('01', 'Parcours', parcours)}
-${chapitre('02', 'Méthode', `
-            <p>
-              Tout commence par un état des lieux : revenus, charges, patrimoine, projets et
-              contraintes. C'est sur cette base que je construis des recommandations, jamais
-              à partir d'un produit.
-            </p>
-            <p>
-              Chaque scénario est chiffré, année après année, avec ses hypothèses écrites noir
-              sur blanc : effort d'épargne, fiscalité, patrimoine constitué. Vous comparez
-              avant de décider, et vous savez sur quoi repose chaque chiffre.
-            </p>
-            <p>
-              Je suis l'évolution des règles fiscales à la source — Bulletin officiel des
-              finances publiques et Journal officiel. Une règle qui change, c'est un dossier
-              que l'on revoit. Et j'explique avant de recommander : une décision patrimoniale
-              doit être comprise, pas seulement signée.
-            </p>`)}
-${chapitre('03', "Cadre d'exercice", `
-            <p>
-              Je suis inscrit au registre de l'ORIAS sous le numéro ${ARENSEIGNER.orias}, en
-              qualité de mandataire d'intermédiaire d'assurance et de mandataire
-              d'intermédiaire en opérations de banque et en services de paiement, sous le
-              contrôle de l'Autorité de contrôle prudentiel et de résolution.
-            </p>
-            <p>
-              Toute recommandation personnalisée est précédée de la remise d'un document
-              d'entrée en relation, et formalisée par écrit.
-            </p>
-            <p><a class="btn-lien" href="/ressources.html" style="padding-left:0">Voir les habilitations <span aria-hidden="true">→</span></a></p>`)}
-        </div>
+        <p>${METIER}.</p>
       </div>
+      ${PUBLIQUE ? '' : `<div class="a-completer" style="margin-bottom:24px">
+        <strong>Préversion —</strong> la partie « Méthode » est une proposition de texte, à relire et à
+        valider. Change tout ce qui ne te ressemble pas.
+      </div>`}
+${fiche('Parcours', parcours)}
+${fiche('Méthode', `
+          <p>Tout commence par un état des lieux : revenus, charges, patrimoine, projets et contraintes. C'est sur cette base que je construis des recommandations, jamais à partir d'un produit.</p>
+          <p>Chaque scénario est chiffré, année après année, avec ses hypothèses écrites noir sur blanc : effort d'épargne, fiscalité, patrimoine constitué. Vous comparez avant de décider, et vous savez sur quoi repose chaque chiffre.</p>
+          <p>Je suis l'évolution des règles fiscales à la source — Bulletin officiel des finances publiques et Journal officiel. Une règle qui change, c'est un dossier que l'on revoit.</p>`)}
+${fiche("Cadre d'exercice", `
+          <p>Inscrit au registre de l'ORIAS sous le numéro ${ARENSEIGNER.orias}, en qualité de mandataire d'intermédiaire d'assurance et de mandataire d'intermédiaire en opérations de banque et en services de paiement, sous le contrôle de l'Autorité de contrôle prudentiel et de résolution.</p>
+          <p>Toute recommandation personnalisée est précédée de la remise d'un document d'entrée en relation, et formalisée par écrit.</p>
+          <p><a class="btn btn--contour" href="/ressources.html">Voir les habilitations</a></p>`)}
     </section>`,
 }
 
@@ -211,37 +237,30 @@ const rendezVous = {
   description: `Prendre rendez-vous avec ${NOM} par téléphone ou par courriel.`,
   contenu: `
     <section class="bloc">
-      <div style="padding-top:48px" class="apparait">${monogramme()}</div>
-      <h1 class="titre apparait apparait-2">Prendre <em>rendez-vous</em></h1>
-      <p class="sous-titre apparait apparait-2">
-        Un premier échange pour faire le point sur votre situation et vos projets.
-      </p>
-      <div class="contacts apparait apparait-3">
+      <div class="page-tete apparait">
+        <p class="surtitre">Rendez-vous</p>
+        <h1>Faisons le point ensemble</h1>
+        <p>Un premier échange pour comprendre votre situation et vos projets. Choisissez le moyen qui vous convient.</p>
+      </div>
+      <div class="contacts apparait apparait-2">
         <a class="contact" href="tel:${CONTACT.telephoneLien}">
-          <span class="surtitre">Téléphone</span>
-          <strong>${CONTACT.telephone}</strong>
-          <span>Appelez ou laissez un message, je vous rappelle.</span>
+          <div class="icone">${ICONES.telephone}</div>
+          <div><small>Téléphone</small><strong>${CONTACT.telephone}</strong><span>Appelez ou laissez un message, je vous rappelle.</span></div>
         </a>
         <a class="contact" href="mailto:${CONTACT.courriel}?subject=${sujet}">
-          <span class="surtitre">Courriel</span>
-          <strong>${CONTACT.courriel}</strong>
-          <span>Indiquez vos disponibilités et l'objet de votre demande.</span>
+          <div class="icone">${ICONES.courriel}</div>
+          <div><small>Courriel</small><strong>${CONTACT.courriel}</strong><span>Indiquez vos disponibilités et l'objet de votre demande.</span></div>
         </a>
       </div>
-      <div class="texte apparait apparait-4" style="margin-top:56px">
-        <h2 style="text-align:center">Pour préparer l'échange</h2>
-        <p style="text-align:center">Rien n'est obligatoire, mais ces documents permettent d'aller plus loin dès le premier rendez-vous :</p>
-        <ul>
-          <li>votre dernier avis d'impôt sur le revenu ;</li>
-          <li>les relevés de vos contrats d'épargne (assurance-vie, PER, livrets) ;</li>
-          <li>les tableaux d'amortissement de vos crédits en cours ;</li>
-          <li>une idée de vos projets : achat, retraite, transmission, revenus complémentaires.</li>
-        </ul>
-        <p class="note">
-          Ce site ne comporte aucun formulaire : vos informations ne transitent que par
-          votre propre messagerie ou votre téléphone.
-        </p>
-      </div>
+${fiche("Pour préparer l'échange", `
+          <p>Rien n'est obligatoire, mais ces documents permettent d'aller plus loin dès le premier rendez-vous :</p>
+          <ul class="liste-coche">
+            <li>votre dernier avis d'impôt sur le revenu ;</li>
+            <li>les relevés de vos contrats d'épargne (assurance-vie, PER, livrets) ;</li>
+            <li>les tableaux d'amortissement de vos crédits en cours ;</li>
+            <li>une idée de vos projets : achat, retraite, transmission, revenus complémentaires.</li>
+          </ul>
+          <p class="note">Ce site ne comporte aucun formulaire : vos informations ne transitent que par votre propre messagerie ou votre téléphone.</p>`)}
     </section>`,
 }
 
@@ -251,9 +270,13 @@ const mentions = {
   titre: 'Mentions légales et confidentialité',
   description: `Éditeur, statuts réglementaires, hébergeur et politique de confidentialité du site de ${NOM}.`,
   contenu: `
-    <section class="bloc texte" style="padding-top:48px">
-      <h1 class="titre" style="margin-top:0">Mentions légales</h1>
-      <p class="sous-titre" style="margin-bottom:10px">En application de l'article 6-III-1 de la loi n° 2004-575 du 21 juin 2004 pour la confiance dans l'économie numérique.</p>
+    <section class="bloc">
+      <div class="page-tete">
+        <p class="surtitre">Informations légales</p>
+        <h1>Mentions légales</h1>
+        <p>En application de l'article 6-III-1 de la loi n° 2004-575 du 21 juin 2004 pour la confiance dans l'économie numérique.</p>
+      </div>
+      <div class="texte">
 
       <h2>Éditeur du site</h2>
       <p>
@@ -333,6 +356,7 @@ const mentions = {
         l'éditeur. Les données publiques reproduites (barèmes, plafonds) sont librement
         réutilisables.
       </p>
+      </div>
     </section>`,
 }
 
@@ -340,12 +364,14 @@ const mentions = {
 const pageSimu = ({ slug, titre, description, script, surtitre, intro }) => ({
   slug, titre, description, script,
   contenu: `
-    <section class="bloc" style="padding-top:40px">
-      <p class="surtitre" style="text-align:center">${surtitre}</p>
-      <h1 class="titre" style="margin-top:12px">${titre}</h1>
-      <p class="sous-titre">${intro}</p>
+    <section class="bloc">
+      <p class="fil"><a href="/simulateurs.html">Simulateurs</a> / ${titre}</p>
+      <div class="page-tete" style="padding-top:18px">
+        <p class="surtitre">${surtitre}</p>
+        <h1>${titre}</h1>
+        <p>${intro}</p>
+      </div>
       <div id="app"></div>
-      <a class="retour" href="/simulateurs.html">← Tous les simulateurs</a>
     </section>`,
 })
 
