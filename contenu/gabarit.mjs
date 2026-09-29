@@ -12,7 +12,7 @@ export const DIFFUSION = process.env.DIFFUSION === 'publique' ? 'publique' : 're
 export const PUBLIQUE = DIFFUSION === 'publique'
 
 export const NOM = 'Kevin Favereau'
-export const METIER = 'Conseil en patrimoine, assurance et financement'
+export const METIER = 'Consultant patrimonial'
 export const ANNEE = 2026
 export const SITE = (process.env.SITE_URL || 'https://favereaukevin.fr').replace(/\/$/, '')
 export const BASE = (process.env.BASE_URL || '/').replace(/\/*$/, '/')
@@ -34,7 +34,7 @@ const NAV = [
 ]
 
 /** Logo : carré vert « kf » et nom. */
-export const logo = (sousTitre = true) => `<a class="logo" href="/"><span class="logo-marque">kf</span><span>${NOM}${sousTitre ? '<small>Conseil en patrimoine</small>' : ''}</span></a>`
+export const logo = (sousTitre = true) => `<a class="logo" href="/"><span class="logo-marque">kf</span><span>${NOM}${sousTitre ? `<small>${METIER}</small>` : ''}</span></a>`
 
 /** Icônes au trait, dessinées à la main pour rester légères. */
 const trait = (d) => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${d}</svg>`
