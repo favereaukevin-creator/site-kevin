@@ -4,8 +4,12 @@
 // font simplement disparaître leur rubrique).
 
 export const A_COMPLETER = {
-  /** Trois paragraphes sur ton parcours, à la première personne. */
-  parcours: [],
+  /** Trois paragraphes sur ton parcours, à la première personne. Rédigés d'après le récit de Kevin du 29/09/2026. */
+  parcours: [
+    "J'ai commencé à travailler juste après la troisième, en apprentissage, dans la coiffure. J'y ai passé un à un les diplômes nécessaires pour devenir un jour mon propre patron, et c'est quinze ans plus tard que j'ai franchi le cap.",
+    "À mon compte, un constat m'a frappé : personne ne construirait ma retraite à ma place, et si mon activité ralentissait, rien ne protégerait ma famille. J'ai cherché des solutions, découvert l'investissement sous toutes ses formes, et plus je creusais, plus j'avais envie de partager ce que j'apprenais, et d'aider d'autres personnes à avancer dans leur parcours financier.",
+    "Je tenais à une chose : être libre de proposer plusieurs solutions, sans être lié à une seule marque ni à un seul produit. C'est donc naturellement que j'ai rejoint des conseillers indépendants, qui m'ont transmis le métier. Aujourd'hui, j'apporte à mes clients ce que j'aurais aimé trouver à l'époque : un vrai conseil, qui part de leur situation et non d'un produit.",
+  ],
   /** Chemin d'une photo déposée dans public/ (ex. '/portrait.jpg'), ou null. */
   photo: null,
   /** Partenaires (assureurs, sociétés de gestion, promoteurs, banques) : noms. */
