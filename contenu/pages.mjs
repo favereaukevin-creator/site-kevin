@@ -156,9 +156,28 @@ const registre = `
             <li><div><strong>Autorité de contrôle</strong><span>Autorité de contrôle prudentiel et de résolution (ACPR).</span></div></li>
           </ul>`
 
+// Partenaires en bandes qui défilent, alternativement vers la gauche et vers la
+// droite. Chaque bande est écrite deux fois : l'animation glisse de la moitié
+// de sa longueur et reboucle sans à-coup. Le double est masqué aux lecteurs
+// d'écran, qui lisent la liste une seule fois.
+const bandes = (noms, nb = 4) => {
+  const rangs = Array.from({ length: nb }, (_, i) => noms.filter((_, j) => j % nb === i))
+  return rangs.map((rang, i) => {
+    const puces = rang.map(n => `<span>${n}</span>`).join('')
+    return `
+            <div class="defilant${i % 2 ? ' defilant--inverse' : ''}" style="--duree:${38 + i * 6}s">
+              <div class="defilant-piste">
+                <div class="logos">${puces}</div>
+                <div class="logos" aria-hidden="true">${puces}</div>
+              </div>
+            </div>`
+  }).join('')
+}
+
 const partenaires = A_COMPLETER.partenaires.length
   ? `<p style="margin-top:0">Assureurs, sociétés de gestion, promoteurs et établissements bancaires.</p>
-          <div class="logos">${A_COMPLETER.partenaires.map(p => `<span>${p}</span>`).join('')}</div>
+          <div class="partenaires">${bandes(A_COMPLETER.partenaires)}
+          </div>
           <p style="font-size:14px;margin-top:12px">Liste non exhaustive.</p>`
   : aCompleter('la liste des assureurs, sociétés de gestion et banques avec lesquels tu travailles réellement. Tant qu’elle est vide, cette rubrique ne s’affiche pas sur le site public.')
 
