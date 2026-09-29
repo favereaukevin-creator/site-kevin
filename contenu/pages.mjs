@@ -123,7 +123,7 @@ const bientot = (icone, categorie, titre) => `
 const simulateurs = {
   slug: 'simulateurs',
   titre: 'Simulateurs',
-  description: 'Simulateurs patrimoniaux gratuits : SCPI, gain fiscal PER, acheter ou louer, droits de succession. Calculs faits dans votre navigateur, rien n’est transmis.',
+  description: 'Simulateurs patrimoniaux gratuits : capacité d’emprunt, SCPI, gain fiscal PER, acheter ou louer, droits de succession. Calculs faits dans votre navigateur, rien n’est transmis.',
   contenu: `
     <section class="bloc">
       <div class="page-tete apparait">
@@ -140,7 +140,8 @@ ${outil({ href: '/simulateur-acheter-louer.html', icone: 'maison', categorie: 'R
   texte: "Le patrimoine du propriétaire et celui du locataire qui place son apport, comparés année après année." })}
 ${outil({ href: LIGNEE + 'simulateur.html', icone: 'succession', categorie: 'Transmission', titre: 'Droits de succession',
   texte: 'Droits dus par chaque héritier : abattements, barème du lien de parenté, assurance-vie avant et après 70 ans.', externe: true })}
-${bientot('credit', 'Financement', "Capacité d'emprunt")}
+${outil({ href: '/simulateur-capacite-emprunt.html', icone: 'credit', categorie: 'Financement', titre: "Capacité d'emprunt",
+  texte: "Montant empruntable et prix du bien accessible, selon la règle des 35 % d'endettement appliquée par les banques." })}
 ${bientot('locatif', 'Immobilier & fiscalité', 'Investissement locatif')}
       </div>
     </section>`,
@@ -402,6 +403,12 @@ const simuPer = pageSimu({
   description: "Simulateur PER gratuit : plafond de déduction 2026, économie d'impôt selon votre tranche marginale et capital constitué à la retraite.",
   intro: "Combien un versement sur un Plan d'épargne retraite vous fait-il économiser d'impôt, et que coûte-t-il vraiment ?",
 })
+const simuCapacite = pageSimu({
+  slug: 'simulateur-capacite-emprunt', titre: "Capacité d'emprunt", script: '/src/simulateurs/capacite.tsx',
+  surtitre: 'Financement',
+  description: "Calculez votre capacité d'emprunt immobilier : mensualité maximale à 35 % d'endettement, montant empruntable et prix du bien accessible. Règles 2026.",
+  intro: "Combien pouvez-vous emprunter, et pour quel prix de bien ? Le calcul suit la règle des 35 % d'endettement appliquée par les banques.",
+})
 const simuAchat = pageSimu({
   slug: 'simulateur-acheter-louer', titre: 'Acheter ou louer', script: '/src/simulateurs/acheter-louer.tsx',
   surtitre: 'Résidence principale',
@@ -409,4 +416,4 @@ const simuAchat = pageSimu({
   intro: "À budget égal, qui s'enrichit le plus : le propriétaire qui rembourse son crédit, ou le locataire qui place son apport et la différence ?",
 })
 
-export const pages = [accueil, simulateurs, ressources, aPropos, rendezVous, mentions, simuScpi, simuPer, simuAchat]
+export const pages = [accueil, simulateurs, ressources, aPropos, rendezVous, mentions, simuScpi, simuPer, simuAchat, simuCapacite]
