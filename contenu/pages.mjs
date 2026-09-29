@@ -24,7 +24,6 @@ const accueil = {
   contenu: `
     <section class="bloc heros">
       <div class="apparait">
-        <span class="pastille">ORIAS ${ARENSEIGNER.orias} · Assurance et financement</span>
         <h1>Votre patrimoine, <span class="surligne">pensé</span> comme un tout.</h1>
         <p class="chapo">
           Une approche globale et méthodique, bâtie autour de votre situation et de vos
@@ -81,8 +80,8 @@ ${domaine('transmission', 'Transmission', "Préparer la suite, protéger vos pro
           <h2>Trois temps, pas de raccourci</h2>
         </div>
         <div class="etapes">
-          <div class="etape"><h3>L'état des lieux</h3><p>Revenus, charges, patrimoine, projets et contraintes : on part de votre situation, jamais d'un produit.</p></div>
-          <div class="etape"><h3>Les scénarios chiffrés</h3><p>Chaque piste est projetée dans le temps, avec ses hypothèses, pour comparer avant de décider.</p></div>
+          <div class="etape"><h3>L'audit patrimonial, offert</h3><p>Un premier rendez-vous pour faire le relevé complet de votre situation : revenus, charges, patrimoine, projets.</p></div>
+          <div class="etape"><h3>Des préconisations sur mesure</h3><p>Préparées à partir de ce bilan, chiffrées et expliquées lors d'un second rendez-vous — jamais une solution toute faite.</p></div>
           <div class="etape"><h3>La décision, puis le suivi</h3><p>Une règle fiscale change ? Le dossier est revu. Une décision patrimoniale doit être comprise, pas seulement signée.</p></div>
         </div>
       </div>
@@ -229,15 +228,11 @@ const aPropos = {
         </div>
         <p>${METIER}</p>
       </div>
-      ${PUBLIQUE ? '' : `<div class="a-completer" style="margin-bottom:24px">
-        <strong>Préversion —</strong> la partie « Méthode » est une proposition de texte, à relire et à
-        valider. Change tout ce qui ne te ressemble pas.
-      </div>`}
 ${fiche('Parcours', parcours)}
-${fiche('Méthode', `
-          <p>Tout commence par un état des lieux : revenus, charges, patrimoine, projets et contraintes. C'est sur cette base que je construis des recommandations, jamais à partir d'un produit.</p>
-          <p>Chaque scénario est chiffré, année après année, avec ses hypothèses écrites noir sur blanc : effort d'épargne, fiscalité, patrimoine constitué. Vous comparez avant de décider, et vous savez sur quoi repose chaque chiffre.</p>
-          <p>Je suis l'évolution des règles fiscales à la source — Bulletin officiel des finances publiques et Journal officiel. Une règle qui change, c'est un dossier que l'on revoit.</p>`)}
+${fiche('Philosophie de conseil', `
+          <p>Tout commence par un audit patrimonial offert : un premier rendez-vous pour dresser le relevé complet de votre situation — revenus, charges, patrimoine, projets. À partir de ce bilan, je prépare des préconisations adaptées à votre cas, que je vous présente lors d'un second rendez-vous. Jamais une solution toute faite.</p>
+          <p>Je travaille en architecture ouverte : je ne dépends ni d'un seul assureur ni d'un seul produit, ce qui me laisse libre de retenir ce qui vous convient vraiment.</p>
+          <p>Cette liberté va de pair avec la pédagogie : je vous explique avant de vous recommander, pour que chaque décision soit comprise, et pas seulement acceptée.</p>`)}
 ${fiche("Cadre d'exercice", `
           <p>Inscrit au registre de l'ORIAS sous le numéro ${ARENSEIGNER.orias}, en qualité de mandataire d'intermédiaire d'assurance et de mandataire d'intermédiaire en opérations de banque et en services de paiement, sous le contrôle de l'Autorité de contrôle prudentiel et de résolution.</p>
           <p>Toute recommandation personnalisée est précédée de la remise d'un document d'entrée en relation, et formalisée par écrit.</p>
