@@ -219,7 +219,7 @@ const initiales = NOM.split(' ').map(m => m[0].toLowerCase()).join('')
 const aPropos = {
   slug: 'a-propos',
   titre: 'À propos',
-  description: `Parcours, méthode et cadre d'exercice de ${NOM}, ${METIER.toLowerCase()}.`,
+  description: `Parcours, méthode et cadre d'exercice de ${NOM}, consultant patrimonial.`,
   contenu: `
     <section class="bloc">
       <div class="page-tete apparait">
@@ -227,7 +227,7 @@ const aPropos = {
           <div class="profil-photo">${A_COMPLETER.photo ? `<img src="${A_COMPLETER.photo}" alt="Portrait de ${NOM}" />` : initiales}</div>
           <div><p class="surtitre" style="margin:0">À propos</p><h1 style="margin:4px 0 0">${NOM}</h1></div>
         </div>
-        <p>${METIER}.</p>
+        <p>Consultant patrimonial</p>
       </div>
       ${PUBLIQUE ? '' : `<div class="a-completer" style="margin-bottom:24px">
         <strong>Préversion —</strong> la partie « Méthode » est une proposition de texte, à relire et à
