@@ -10,8 +10,9 @@ export const A_COMPLETER = {
     "À mon compte, un constat m'a frappé : personne ne construirait ma retraite à ma place, et si mon activité ralentissait, rien ne protégerait ma famille. J'ai cherché des solutions, découvert l'investissement sous toutes ses formes, et plus je creusais, plus j'avais envie de partager ce que j'apprenais, et d'aider d'autres personnes à avancer dans leur parcours financier.",
     "Je tenais à une chose : être libre de proposer plusieurs solutions, sans être lié à une seule marque ni à un seul produit. C'est donc naturellement que j'ai rejoint des conseillers indépendants, qui m'ont transmis le métier. Aujourd'hui, j'apporte à mes clients ce que j'aurais aimé trouver à l'époque : un vrai conseil, qui part de leur situation et non d'un produit.",
   ],
-  /** Chemin d'une photo déposée dans public/ (ex. '/portrait.jpg'), ou null. */
-  photo: null,
+  /** Chemin d'une photo déposée dans public/ (ex. '/portrait.jpg'), ou null.
+   *  Reprise de la signature des courriels de Kevin, à sa demande (29/09/2026). */
+  photo: '/portrait.png',
   /** Partenaires (assureurs, sociétés de gestion, promoteurs, banques) : noms. */
   partenaires: [
     'Activimmo',

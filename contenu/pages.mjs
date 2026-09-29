@@ -224,7 +224,7 @@ const aPropos = {
     <section class="bloc">
       <div class="page-tete apparait">
         <div class="profil">
-          <div class="profil-photo">${A_COMPLETER.photo ? `<img src="${A_COMPLETER.photo}" alt="Portrait de ${NOM}" />` : initiales}</div>
+          <div class="profil-photo${A_COMPLETER.photo ? ' avec-photo' : ''}">${A_COMPLETER.photo ? `<img src="${A_COMPLETER.photo}" alt="Portrait de ${NOM}" />` : initiales}</div>
           <div><p class="surtitre" style="margin:0">À propos</p><h1 style="margin:4px 0 0">${NOM}</h1></div>
         </div>
         <p>${METIER}</p>

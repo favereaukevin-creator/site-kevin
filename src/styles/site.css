@@ -181,6 +181,8 @@ h1, h2, h3 { letter-spacing: -.025em; line-height: 1.12; font-weight: 800; }
 .profil { display: flex; align-items: center; gap: 22px; margin-bottom: 18px; }
 .profil-photo { width: 104px; height: 104px; border-radius: 28px; overflow: hidden; background: var(--vert); color: #fff; display: grid; place-items: center; font-size: 36px; font-weight: 800; letter-spacing: -.04em; flex: none; }
 .profil-photo img { width: 100%; height: 100%; object-fit: cover; }
+/* La photo est ronde, comme dans la signature des courriels. */
+.profil-photo.avec-photo { border-radius: 50%; background: var(--ligne); }
 .a-completer { border: 1.5px dashed var(--cuivre); background: var(--cuivre-pale); border-radius: 12px; padding: 14px 16px; color: #7a4520; font-size: 14.5px; }
 
 /* ---------- Contenu éditorial et contact ---------- */
