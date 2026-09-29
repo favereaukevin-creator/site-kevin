@@ -156,12 +156,9 @@ const registre = `
             <li><div><strong>Autorité de contrôle</strong><span>Autorité de contrôle prudentiel et de résolution (ACPR).</span></div></li>
           </ul>`
 
-const diplomes = A_COMPLETER.diplomes.length
-  ? `<ul class="registre">${A_COMPLETER.diplomes.map(d => `<li><div><strong>${d.titre}</strong><span>${d.detail}</span></div></li>`).join('')}</ul>`
-  : aCompleter('tes diplômes et certifications (intitulé, établissement, année). Tant que la liste est vide, cette rubrique ne s’affiche pas sur le site public.')
-
 const partenaires = A_COMPLETER.partenaires.length
-  ? `<div class="logos">${A_COMPLETER.partenaires.map(p => `<span>${p}</span>`).join('')}</div>
+  ? `<p style="margin-top:0">Assureurs, sociétés de gestion, promoteurs et établissements bancaires.</p>
+          <div class="logos">${A_COMPLETER.partenaires.map(p => `<span>${p}</span>`).join('')}</div>
           <p style="font-size:14px;margin-top:12px">Liste non exhaustive.</p>`
   : aCompleter('la liste des assureurs, sociétés de gestion et banques avec lesquels tu travailles réellement. Tant qu’elle est vide, cette rubrique ne s’affiche pas sur le site public.')
 
@@ -183,7 +180,6 @@ const ressources = {
         <p>Statuts, inscriptions et partenaires : des informations publiques, vérifiables en un clic.</p>
       </div>
 ${fiche('Habilitations', registre)}
-${A_COMPLETER.diplomes.length || !PUBLIQUE ? fiche('Diplômes', diplomes) : ''}
 ${A_COMPLETER.partenaires.length || !PUBLIQUE ? fiche('Partenaires', partenaires) : ''}
 ${fiche('Guides', `
           <a class="contact" href="${LIGNEE}" rel="noopener" style="max-width:560px">
