@@ -12,7 +12,7 @@ export const DIFFUSION = process.env.DIFFUSION === 'publique' ? 'publique' : 're
 export const PUBLIQUE = DIFFUSION === 'publique'
 
 export const NOM = 'Kevin Favereau'
-export const METIER = 'Consultant patrimonial'
+export const METIER = 'Conseil en ingénierie patrimoniale'
 export const ANNEE = 2026
 export const SITE = (process.env.SITE_URL || 'https://favereaukevin.fr').replace(/\/$/, '')
 export const BASE = (process.env.BASE_URL || '/').replace(/\/*$/, '/')
