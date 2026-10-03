@@ -34,7 +34,7 @@ const NAV = [
 ]
 
 /** Logo : carré vert « kf » et nom. */
-export const logo = (sousTitre = true) => `<a class="logo" href="/"><span class="logo-marque">kf</span><span>${NOM}${sousTitre ? `<small>${METIER}</small>` : ''}</span></a>`
+export const logo = (sousTitre = true) => `<a class="logo" href="/"><span><span class="logo-nom">${NOM}</span>${sousTitre ? `<small>${METIER}</small>` : ''}</span></a>`
 
 /** Icônes au trait, dessinées à la main pour rester légères. */
 const trait = (d) => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${d}</svg>`
@@ -114,7 +114,7 @@ export function page({ slug, titre, description, contenu, script = null }) {
   <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Fraunces:opsz,wght@9..144,600&display=swap" />
   <link rel="stylesheet" href="/src/styles/site.css" />
 </head>
 <body>
