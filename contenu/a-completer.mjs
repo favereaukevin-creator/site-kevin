@@ -13,6 +13,10 @@ export const A_COMPLETER = {
   /** Chemin d'une photo déposée dans public/ (ex. '/portrait.jpg'), ou null.
    *  Reprise de la signature des courriels de Kevin, à sa demande (29/09/2026). */
   photo: '/portrait.png',
+  /** Lien de la page de réservation de Google Agenda (agenda de rendez-vous),
+   *  copié depuis « Partager » : https://calendar.app.google/… Vide = pas de
+   *  bouton de réservation, seulement le téléphone et le courriel. */
+  reservation: '',
   /** Partenaires (assureurs, sociétés de gestion, promoteurs, banques) : noms. */
   partenaires: [
     'Activimmo',

@@ -224,6 +224,23 @@ ${fiche("Cadre d'exercice", `
 
 // ---------------------------------------------------------------- Rendez-vous
 const sujet = encodeURIComponent('Demande de rendez-vous')
+// Réservation : un lien vers la page Google Agenda de Kevin, et non un
+// calendrier intégré, pour que le site reste sans cookie ni traceur.
+const RESERVATION = A_COMPLETER.reservation
+if (RESERVATION && !/^https:\/\/(calendar\.app\.google\/|calendar\.google\.com\/calendar\/appointments\/)/.test(RESERVATION)) {
+  throw new Error(`Lien de réservation inattendu : ${RESERVATION} (attendu : la page de réservation de Google Agenda)`)
+}
+const reservation = RESERVATION ? `
+      <a class="reservation apparait apparait-2" href="${RESERVATION}" target="_blank" rel="noopener">
+        <span class="reservation-texte">
+          <small>Réservation en ligne</small>
+          <strong>Choisissez votre créneau</strong>
+          <span>Les créneaux affichés sont mes disponibilités réelles. Vous recevez la confirmation par courriel, avec un rappel avant le rendez-vous.</span>
+        </span>
+        <span class="btn btn--pilule btn--clair">Voir les créneaux <span aria-hidden="true">→</span></span>
+      </a>`
+  : aCompleter('le lien de ta page de réservation Google Agenda (champ « reservation » de contenu/a-completer.mjs). Tant qu’il est vide, la page ne propose que le téléphone et le courriel.')
+
 const rendezVous = {
   slug: 'rendez-vous',
   titre: 'Prendre rendez-vous',
@@ -233,8 +250,9 @@ const rendezVous = {
       <div class="page-tete apparait">
         <p class="surtitre">Rendez-vous</p>
         <h1>Faisons le point ensemble</h1>
-        <p>Un premier échange pour comprendre votre situation et vos projets. Choisissez le moyen qui vous convient.</p>
+        <p>Un premier échange pour comprendre votre situation et vos projets. ${RESERVATION ? 'Réservez directement un créneau, ou choisissez le moyen qui vous convient.' : 'Choisissez le moyen qui vous convient.'}</p>
       </div>
+${reservation}
       <div class="contacts apparait apparait-2">
         <a class="contact" href="tel:${CONTACT.telephoneLien}">
           <div class="icone">${ICONES.telephone}</div>
@@ -253,7 +271,9 @@ ${fiche("Pour préparer l'échange", `
             <li>les tableaux d'amortissement de vos crédits en cours ;</li>
             <li>une idée de vos projets : achat, retraite, transmission, revenus complémentaires.</li>
           </ul>
-          <p class="note">Ce site ne comporte aucun formulaire : vos informations ne transitent que par votre propre messagerie ou votre téléphone.</p>`)}
+          <p class="note">${RESERVATION
+            ? "Ce site ne comporte aucun formulaire. La réservation en ligne se fait sur la page de réservation de Google Agenda : le nom et l'adresse électronique que vous y indiquez servent uniquement à organiser le rendez-vous."
+            : 'Ce site ne comporte aucun formulaire : vos informations ne transitent que par votre propre messagerie ou votre téléphone.'}</p>`)}
     </section>`,
 }
 
@@ -331,7 +351,14 @@ const mentions = {
         Les montants saisis dans les simulateurs sont calculés dans votre navigateur et
         n'en sortent jamais. Les polices de caractères sont chargées depuis Google Fonts,
         ce qui transmet votre adresse IP à Google : c'est le seul flux sortant du site.
-      </p>
+      </p>${RESERVATION ? `
+      <p>
+        <strong>Prise de rendez-vous.</strong> Le bouton « Voir les créneaux » ouvre la page
+        de réservation de Google Agenda, en dehors de ce site. Les informations que vous y
+        saisissez (nom, adresse électronique, éventuel message) sont transmises à Google et
+        à ${NOM} pour fixer et confirmer le rendez-vous, et ne servent à rien d'autre. Elles
+        sont soumises aux règles de confidentialité de Google.
+      </p>` : ''}
 
       <h2>Portée des simulations</h2>
       <p>
