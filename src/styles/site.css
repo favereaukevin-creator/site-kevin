@@ -236,7 +236,9 @@ h1, h2, h3 { letter-spacing: -.025em; line-height: 1.12; font-weight: 800; }
 .format .categorie { font-size: 11.5px; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; color: #a9d2c2; }
 .format:nth-child(even) .categorie { color: #f0b98c; }
 .format h3 { font-family: var(--serif); font-weight: 400; font-size: 30px; letter-spacing: -.015em; line-height: 1.1; margin: 0; color: #fff7ec; }
-.format-detail { font-size: 13.5px; font-weight: 600; color: rgba(251, 246, 238, .82); }
+.format-detail { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 14px; font-size: 13.5px; font-weight: 600; color: rgba(251, 246, 238, .82); }
+.format-duree { display: inline-flex; align-items: center; gap: 6px; }
+.format-duree svg { width: 14px; height: 14px; opacity: .85; }
 .format p { margin: 6px 0 0; color: rgba(251, 246, 238, .72); font-size: 14.5px; flex: 1; }
 .format .lien { margin-top: 18px; padding-top: 14px; font-size: 13.5px; font-weight: 700; color: #fff7ec; display: flex; justify-content: space-between; align-items: center;
   border-top: 1px solid rgba(251, 246, 238, .14); background: linear-gradient(90deg, #e2a274 0 30px, transparent 30px) top left / 100% 1px no-repeat; }

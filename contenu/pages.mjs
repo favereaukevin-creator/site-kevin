@@ -232,21 +232,21 @@ if (RESERVATION && !/^https:\/\/(calendar\.app\.google\/|calendar\.google\.com\/
 }
 // Trois façons d'échanger, en grandes cartes sombres : la réservation en
 // ligne d'abord (si le lien est renseigné), puis le téléphone et le courriel.
-const format = ({ href, icone, categorie, titre, detail, texte, action, externe = false }) => `
+const format = ({ href, icone, categorie, titre, duree = '', detail, texte, action, externe = false }) => `
         <a class="format" href="${href}"${externe ? ' target="_blank" rel="noopener"' : ''}>
           <span class="format-icone">${ICONES[icone]}</span>
           <span class="categorie">${categorie}</span>
           <h3>${titre}</h3>
-          <span class="format-detail">${detail}</span>
+          <span class="format-detail">${duree ? `<span class="format-duree">${ICONES.horloge}${duree}</span>` : ''}${detail}</span>
           <p>${texte}</p>
           <span class="lien">${action}<span aria-hidden="true">→</span></span>
         </a>`
 const formats = [
   RESERVATION && format({ href: RESERVATION, icone: 'agenda', categorie: 'Réservation en ligne', titre: 'Audit patrimonial',
-    detail: 'Offert · créneaux en temps réel', externe: true, action: 'Choisir un créneau',
+    duree: '1 h 15', detail: 'Offert', externe: true, action: 'Choisir un créneau',
     texte: 'Un premier rendez-vous pour faire le relevé complet de votre situation et de vos projets. Choisissez directement un créneau libre dans mon agenda.' }),
   format({ href: `tel:${CONTACT.telephoneLien}`, icone: 'telephone', categorie: 'Par téléphone', titre: 'Un appel',
-    detail: CONTACT.telephone, action: 'Appeler',
+    duree: '30 minutes', detail: CONTACT.telephone, action: 'Appeler',
     texte: 'Pour une première question ou un échange rapide. Si je suis en rendez-vous, laissez un message : je vous rappelle.' }),
   format({ href: `mailto:${CONTACT.courriel}?subject=${sujet}`, icone: 'courriel', categorie: 'Par courriel', titre: 'Un message',
     detail: CONTACT.courriel, action: 'Écrire',
