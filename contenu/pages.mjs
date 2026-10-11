@@ -15,45 +15,25 @@ const domaine = (icone, titre, texte) => `
             <p>${texte}</p>
           </div>`
 
-// Chiffres des deux exemples : ceux des cas types verrouillés par les tests
-// (src/moteur/per.test.ts et acheterLouer.test.ts). Les changer là-bas d'abord.
 const accueil = {
   slug: 'index',
   titre: NOM,
   description: `${NOM}, ${METIER.toLowerCase()} : une approche globale de votre patrimoine — épargne, immobilier, retraite, transmission. Simulateurs gratuits et prise de rendez-vous.`,
   contenu: `
-    <section class="bloc heros">
-      <div class="apparait">
-        <h1>Votre patrimoine, <span class="surligne">pensé</span> comme un tout.</h1>
-        <p class="chapo">
-          Une approche globale et méthodique, bâtie autour de votre situation et de vos
-          projets — épargne, immobilier, retraite et transmission — pour les particuliers
-          comme pour les entreprises.
+    <section class="bloc accueil-heros">
+      <div class="accueil-centre">
+        <h1 class="accueil-nom apparait">${NOM}</h1>
+        <p class="accueil-metier apparait">${METIER}</p>
+        <span class="accueil-filet apparait apparait-2" aria-hidden="true"></span>
+        <p class="accueil-chapo apparait apparait-2">
+          Une approche <span class="accent">globale</span> et méthodique, bâtie autour de votre
+          situation et de vos projets — épargne, immobilier, retraite et transmission — pour
+          les particuliers comme pour les entreprises.
         </p>
-        <div class="actions">
-          <a class="btn btn--grand" href="/rendez-vous.html">Prendre rendez-vous</a>
-          <a class="btn btn--grand btn--contour" href="/simulateurs.html">Essayer un simulateur</a>
+        <div class="accueil-actions apparait apparait-3">
+          <a class="btn btn--pilule" href="/rendez-vous.html">Prendre rendez-vous <span aria-hidden="true">→</span></a>
+          <a class="lien-fleche" href="/simulateurs.html">Découvrir les simulateurs <span aria-hidden="true">→</span></a>
         </div>
-        <div class="preuves">
-          <span><strong>Chiffré</strong>chaque scénario, année après année</span>
-          <span><strong>Expliqué</strong>hypothèses écrites noir sur blanc</span>
-          <span><strong>À jour</strong>règles suivies à la source</span>
-        </div>
-      </div>
-      <div class="exemples apparait apparait-2" aria-label="Exemples chiffrés">
-        <div class="exemple">
-          <div class="exemple-tete">Gain fiscal PER <a href="/simulateur-per.html">Simuler →</a></div>
-          <div class="exemple-chiffre">900 € / an</div>
-          <p>d'impôt en moins pour 3 000 € versés, à 30 % de tranche marginale.</p>
-          <div class="jauge"><span style="width:30%"></span></div>
-        </div>
-        <div class="exemple">
-          <div class="exemple-tete">Acheter ou louer <a href="/simulateur-acheter-louer.html">Simuler →</a></div>
-          <div class="exemple-chiffre">Après 7 ans</div>
-          <p>l'achat d'un bien à 250 000 € dépasse la location à 1 000 € par mois.</p>
-          <div class="jauge"><span style="width:62%"></span></div>
-        </div>
-        <p class="mention-exemple">Exemples indicatifs, hypothèses détaillées dans chaque simulateur.</p>
       </div>
     </section>
 
