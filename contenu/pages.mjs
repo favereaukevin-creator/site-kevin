@@ -230,39 +230,43 @@ const RESERVATION = A_COMPLETER.reservation
 if (RESERVATION && !/^https:\/\/(calendar\.app\.google\/|calendar\.google\.com\/calendar\/appointments\/)/.test(RESERVATION)) {
   throw new Error(`Lien de réservation inattendu : ${RESERVATION} (attendu : la page de réservation de Google Agenda)`)
 }
-const reservation = RESERVATION ? `
-      <a class="reservation apparait apparait-2" href="${RESERVATION}" target="_blank" rel="noopener">
-        <span class="reservation-texte">
-          <small>Réservation en ligne</small>
-          <strong>Choisissez votre créneau</strong>
-          <span>Les créneaux affichés sont mes disponibilités réelles. La confirmation vous arrive aussitôt par courriel.</span>
-        </span>
-        <span class="btn btn--pilule btn--clair">Voir les créneaux <span aria-hidden="true">→</span></span>
-      </a>`
-  : aCompleter('le lien de ta page de réservation Google Agenda (champ « reservation » de contenu/a-completer.mjs). Tant qu’il est vide, la page ne propose que le téléphone et le courriel.')
+// Trois façons d'échanger, en grandes cartes sombres : la réservation en
+// ligne d'abord (si le lien est renseigné), puis le téléphone et le courriel.
+const format = ({ href, icone, categorie, titre, detail, texte, action, externe = false }) => `
+        <a class="format" href="${href}"${externe ? ' target="_blank" rel="noopener"' : ''}>
+          <span class="format-icone">${ICONES[icone]}</span>
+          <span class="categorie">${categorie}</span>
+          <h3>${titre}</h3>
+          <span class="format-detail">${detail}</span>
+          <p>${texte}</p>
+          <span class="lien">${action}<span aria-hidden="true">→</span></span>
+        </a>`
+const formats = [
+  RESERVATION && format({ href: RESERVATION, icone: 'agenda', categorie: 'Réservation en ligne', titre: 'Audit patrimonial',
+    detail: 'Offert · créneaux en temps réel', externe: true, action: 'Choisir un créneau',
+    texte: 'Un premier rendez-vous pour faire le relevé complet de votre situation et de vos projets. Choisissez directement un créneau libre dans mon agenda.' }),
+  format({ href: `tel:${CONTACT.telephoneLien}`, icone: 'telephone', categorie: 'Par téléphone', titre: 'Un appel',
+    detail: CONTACT.telephone, action: 'Appeler',
+    texte: 'Pour une première question ou un échange rapide. Si je suis en rendez-vous, laissez un message : je vous rappelle.' }),
+  format({ href: `mailto:${CONTACT.courriel}?subject=${sujet}`, icone: 'courriel', categorie: 'Par courriel', titre: 'Un message',
+    detail: CONTACT.courriel, action: 'Écrire',
+    texte: "Indiquez vos disponibilités et l'objet de votre demande : je reviens vers vous pour fixer le rendez-vous." }),
+].filter(Boolean).join('')
 
 const rendezVous = {
   slug: 'rendez-vous',
   titre: 'Prendre rendez-vous',
-  description: `Prendre rendez-vous avec ${NOM} par téléphone ou par courriel.`,
+  description: `Prendre rendez-vous avec ${NOM}${RESERVATION ? ' : réservation en ligne d’un audit patrimonial offert,' : ''} par téléphone ou par courriel.`,
   contenu: `
     <section class="bloc">
-      <div class="page-tete apparait">
+      <div class="page-tete page-tete--centre apparait">
         <p class="surtitre">Rendez-vous</p>
         <h1>Faisons le point ensemble</h1>
-        <p>Un premier échange pour comprendre votre situation et vos projets. ${RESERVATION ? 'Réservez directement un créneau, ou choisissez le moyen qui vous convient.' : 'Choisissez le moyen qui vous convient.'}</p>
+        <p>Choisissez la façon d'échanger qui vous convient le mieux.</p>
       </div>
-${reservation}
-      <div class="contacts apparait apparait-2">
-        <a class="contact" href="tel:${CONTACT.telephoneLien}">
-          <div class="icone">${ICONES.telephone}</div>
-          <div><small>Téléphone</small><strong>${CONTACT.telephone}</strong><span>Appelez ou laissez un message, je vous rappelle.</span></div>
-        </a>
-        <a class="contact" href="mailto:${CONTACT.courriel}?subject=${sujet}">
-          <div class="icone">${ICONES.courriel}</div>
-          <div><small>Courriel</small><strong>${CONTACT.courriel}</strong><span>Indiquez vos disponibilités et l'objet de votre demande.</span></div>
-        </a>
+      <div class="formats apparait apparait-2">${formats}
       </div>
+      ${RESERVATION ? `<p class="formats-note apparait apparait-3">Les rendez-vous réservés en ligne s'inscrivent directement dans mon agenda ; la confirmation vous arrive aussitôt par courriel.</p>` : aCompleter('le lien de ta page de réservation Google Agenda (champ « reservation » de contenu/a-completer.mjs).')}
 ${fiche("Pour préparer l'échange", `
           <p>Rien n'est obligatoire, mais ces documents permettent d'aller plus loin dès le premier rendez-vous :</p>
           <ul class="liste-coche">

@@ -51,6 +51,7 @@ export const ICONES = {
   locatif: trait('<path d="M4 21V9l8-6 8 6v12"/><path d="M9 21v-5h6v5"/><path d="M9 11h6"/>'),
   telephone: trait('<path d="M5 3h4l2 5-2.5 1.5a11 11 0 0 0 6 6L16 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 5a2 2 0 0 1 2-2"/>'),
   courriel: trait('<rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/>'),
+  agenda: trait('<rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4M8 14h2M14 14h2M8 18h2"/>'),
   guide: trait('<path d="M4 19V5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2"/><path d="M8 7h7M8 11h5"/>'),
 }
 
