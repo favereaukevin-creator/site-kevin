@@ -235,7 +235,7 @@ const reservation = RESERVATION ? `
         <span class="reservation-texte">
           <small>Réservation en ligne</small>
           <strong>Choisissez votre créneau</strong>
-          <span>Les créneaux affichés sont mes disponibilités réelles. Vous recevez la confirmation par courriel, avec un rappel avant le rendez-vous.</span>
+          <span>Les créneaux affichés sont mes disponibilités réelles. La confirmation vous arrive aussitôt par courriel.</span>
         </span>
         <span class="btn btn--pilule btn--clair">Voir les créneaux <span aria-hidden="true">→</span></span>
       </a>`
