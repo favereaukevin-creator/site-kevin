@@ -1,7 +1,7 @@
 import { StrictMode, useState } from 'react'
 import { createRoot } from 'react-dom/client'
 import { capaciteEmprunt, DUREE_MAX_ANS, DUREE_MAX_DIFFERE_ANS, TAUX_EFFORT_MAX, type CapaciteParams } from '../moteur/capacite'
-import { Champ, Tuile, fmtEUR, fmtPct } from './ui'
+import { Atelier, Champ, Rubrique, Tuile, Vedette, fmtEUR, fmtPct } from './ui'
 
 const DEFAUTS: CapaciteParams = {
   revenusMensuels: 4_000, loyersPercus: 0, chargesCredits: 0,
@@ -16,26 +16,24 @@ function Simulateur() {
   const durees = [15, 20, 25].map(d => ({ d, r: capaciteEmprunt({ ...p, dureeAns: d }) }))
 
   return (
-    <div className="simu">
-      <div className="panneau">
-        <h2>Vos revenus et charges</h2>
-        <Champ libelle="Revenus nets du foyer" valeur={p.revenusMensuels} onChange={maj('revenusMensuels')} unite="€/mois" min={0}
+    <>
+      <Atelier reinitialiser={() => setP(DEFAUTS)} hypotheses={<>
+        <Rubrique>Vos revenus et charges</Rubrique>
+        <Champ libelle="Revenus nets du foyer" valeur={p.revenusMensuels} onChange={maj('revenusMensuels')} curseur={[1_000, 20_000, 50]} unite="€/mois" min={0}
           aide="Salaires nets avant impôt, pensions, revenus d'indépendant lissés sur l'année." />
-        <Champ libelle="Loyers perçus" valeur={p.loyersPercus} onChange={maj('loyersPercus')} unite="€/mois" min={0}
+        <Champ libelle="Loyers perçus" valeur={p.loyersPercus} onChange={maj('loyersPercus')} curseur={[0, 5_000, 50]} unite="€/mois" min={0}
           aide="Les banques n'en retiennent en général que 70 %." />
-        <Champ libelle="Crédits en cours" valeur={p.chargesCredits} onChange={maj('chargesCredits')} unite="€/mois" min={0}
+        <Champ libelle="Crédits en cours" valeur={p.chargesCredits} onChange={maj('chargesCredits')} curseur={[0, 5_000, 25]} unite="€/mois" min={0}
           aide="Mensualités qui continueront après l'achat : auto, consommation, autre immobilier." />
-        <h2 style={{ marginTop: 22 }}>Le crédit envisagé</h2>
-        <Champ libelle="Taux du crédit" valeur={p.tauxCredit * 100} onChange={majPct('tauxCredit')} unite="%" min={0} max={15} />
-        <Champ libelle="Assurance emprunteur" valeur={p.tauxAssurance * 100} onChange={majPct('tauxAssurance')} unite="%/an" min={0} max={2}
+        <Rubrique>Le crédit envisagé</Rubrique>
+        <Champ libelle="Taux du crédit" valeur={p.tauxCredit * 100} onChange={majPct('tauxCredit')} curseur={[0, 8, 0.05]} unite="%" min={0} max={15} />
+        <Champ libelle="Assurance emprunteur" valeur={p.tauxAssurance * 100} onChange={majPct('tauxAssurance')} curseur={[0, 1, 0.01]} unite="%/an" min={0} max={2}
           aide="Sur le capital emprunté. Comptée dans les 35 %." />
-        <Champ libelle="Durée" valeur={p.dureeAns} onChange={maj('dureeAns')} unite="ans" min={5} max={30} />
-        <Champ libelle="Apport personnel" valeur={p.apport} onChange={maj('apport')} unite="€" min={0} />
-        <Champ libelle="Frais de notaire" valeur={p.fraisNotairePct * 100} onChange={majPct('fraisNotairePct')} unite="%" min={0} max={15}
+        <Champ libelle="Durée" valeur={p.dureeAns} onChange={maj('dureeAns')} curseur={[5, 30, 1]} unite="ans" min={5} max={30} />
+        <Champ libelle="Apport personnel" valeur={p.apport} onChange={maj('apport')} curseur={[0, 500_000, 1_000]} unite="€" min={0} />
+        <Champ libelle="Frais de notaire" valeur={p.fraisNotairePct * 100} onChange={majPct('fraisNotairePct')} curseur={[0, 10, 0.5]} unite="%" min={0} max={15}
           aide="Environ 7 à 8 % dans l'ancien, 2 à 3 % dans le neuf." />
-      </div>
-
-      <div className="resultats">
+      </>}>
         {r.dureeAuDela && (
           <div className="alerte">
             Au-delà de {DUREE_MAX_ANS} ans, un crédit n'est possible qu'avec un différé, jusqu'à {DUREE_MAX_DIFFERE_ANS} ans,
@@ -48,16 +46,17 @@ function Simulateur() {
             {' '}{fmtPct(TAUX_EFFORT_MAX, 0)}, un nouveau crédit suppose d'en regrouper ou d'en solder une partie.
           </div>
         )}
+        <Vedette chiffres={[
+          { libelle: "Capacité d'emprunt", valeur: fmtEUR(r.capital), aide: `sur ${p.dureeAns} ans à ${fmtPct(p.tauxCredit, 2)}` },
+          { libelle: 'Prix du bien accessible', valeur: fmtEUR(r.prixMax), aide: `apport compris, frais de notaire de ${fmtPct(p.fraisNotairePct)} déduits` },
+        ]} />
         <div className="tuiles">
-          <Tuile ton="sombre" libelle="Capacité d'emprunt" valeur={fmtEUR(r.capital)}
-            aide={`sur ${p.dureeAns} ans à ${fmtPct(p.tauxCredit, 2)}`} />
-          <Tuile ton="or" libelle="Prix du bien accessible" valeur={fmtEUR(r.prixMax)}
-            aide={`apport compris, frais de notaire de ${fmtPct(p.fraisNotairePct)} déduits`} />
           <Tuile libelle="Mensualité maximale" valeur={fmtEUR(r.mensualiteMax)}
             aide={`assurance comprise, soit ${fmtPct(TAUX_EFFORT_MAX, 0)} de ${fmtEUR(r.revenusRetenus)} retenus${p.chargesCredits > 0 ? `, moins ${fmtEUR(p.chargesCredits)} de crédits en cours` : ''}`} />
           <Tuile libelle="Reste à vivre" valeur={fmtEUR(r.resteAVivre)}
             aide="par mois, une fois tous les crédits payés. Les banques le regardent aussi." />
         </div>
+      </Atelier>
 
         <div className="graphique">
           <h3>Selon la durée du crédit</h3>
@@ -89,8 +88,7 @@ function Simulateur() {
           peut donc être différent. Taux et assurance sont des hypothèses à ajuster selon les
           conditions du moment et votre profil.
         </p>
-      </div>
-    </div>
+    </>
   )
 }
 

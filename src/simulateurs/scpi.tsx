@@ -1,7 +1,7 @@
 import { StrictMode, useState } from 'react'
 import { createRoot } from 'react-dom/client'
 import { simulate, type ScpiViVpParams } from '../moteur/scpi'
-import { Champ, Courbes, Tuile, fmtEUR } from './ui'
+import { Atelier, Champ, Courbes, Tuile, Vedette, fmtEUR } from './ui'
 
 const DEFAUTS: ScpiViVpParams = {
   tauxRendement: 5, versementInitial: 10_000, vpMensuel: 200,
@@ -16,40 +16,41 @@ function Simulateur() {
   const dernier = r.rows[r.rows.length - 1]
 
   return (
-    <div className="simu">
-      <div className="panneau">
-        <h2>Votre projet</h2>
-        <Champ libelle="Versement initial" valeur={p.versementInitial} onChange={maj('versementInitial')} unite="€" min={0} />
-        <Champ libelle="Versement programmé" valeur={p.vpMensuel} onChange={maj('vpMensuel')} unite="€/mois" min={0} />
-        <Champ libelle="Durée des versements" valeur={p.dureeVp} onChange={maj('dureeVp')} unite="ans" min={0} max={50} />
-        <Champ libelle="Durée de la projection" valeur={p.dureeTotale} onChange={maj('dureeTotale')} unite="ans" min={1} max={50} />
-        <Champ libelle="Taux de distribution" valeur={p.tauxRendement} onChange={maj('tauxRendement')} unite="%/an" min={0} max={20}
+    <>
+      <Atelier reinitialiser={() => setP(DEFAUTS)} hypotheses={<>
+        <Champ libelle="Taux de distribution" valeur={p.tauxRendement} onChange={maj('tauxRendement')} unite="%/an" min={0} max={20} curseur={[0, 10, 0.1]}
           aide="Hypothèse constante. Le taux de distribution d'une SCPI n'est pas garanti." />
-        <Champ libelle="Frais de souscription" valeur={p.droitsEntree} onChange={maj('droitsEntree')} unite="%" min={0} max={20}
+        <Champ libelle="Versement initial" valeur={p.versementInitial} onChange={maj('versementInitial')} unite="€" min={0} curseur={[0, 200_000, 1_000]} />
+        <Champ libelle="Versement programmé" valeur={p.vpMensuel} onChange={maj('vpMensuel')} unite="€/mois" min={0} curseur={[0, 3_000, 50]} />
+        <div className="paire">
+          <Champ libelle="Durée des versements" valeur={p.dureeVp} onChange={maj('dureeVp')} unite="ans" min={0} max={50} curseur={[0, 40, 1]} />
+          <Champ libelle="Durée totale" valeur={p.dureeTotale} onChange={maj('dureeTotale')} unite="ans" min={1} max={50} curseur={[1, 50, 1]} />
+        </div>
+        <Champ libelle="Frais de souscription" valeur={p.droitsEntree} onChange={maj('droitsEntree')} unite="%" min={0} max={20} curseur={[0, 12, 0.5]}
           aide="Souvent 8 à 12 % en direct ; certaines SCPI n'en prélèvent pas." />
-        <Champ libelle="Fiscalité sur les revenus" valeur={p.frottementFiscal} onChange={maj('frottementFiscal')} unite="%" min={0} max={70}
+        <Champ libelle="Fiscalité sur les revenus" valeur={p.frottementFiscal} onChange={maj('frottementFiscal')} unite="%" min={0} max={70} curseur={[0, 60, 1]}
           aide="0 % = revenus bruts. SCPI française : votre tranche + 17,2 %. SCPI européenne : souvent 5 à 8 %." />
-      </div>
-
-      <div className="resultats">
+      </>}>
         {p.dureeVp > p.dureeTotale && (
           <div className="alerte">
             Les versements courent sur {p.dureeVp} ans mais la projection s'arrête à {p.dureeTotale} ans :
             {' '}{fmtEUR(r.versementsIgnores)} de versements ne sont pas pris en compte.
           </div>
         )}
+        <Vedette chiffres={[
+          { libelle: 'Capital investi', valeur: fmtEUR(r.capitalInvestiFinal),
+            aide: `au bout de ${p.dureeTotale} ans${r.totalDroitsEntree > 0 ? `, après ${fmtEUR(r.totalDroitsEntree)} de frais` : ''}` },
+          { libelle: 'Revenu mensuel au terme', valeur: fmtEUR(r.revenuMensuelNetFinal), aide: `${fmtEUR(dernier.revenuAnnuelNet)} par an, ${net}` },
+        ]} />
         <div className="tuiles">
-          <Tuile ton="sombre" libelle="Capital investi" valeur={fmtEUR(r.capitalInvestiFinal)}
-            aide={`au bout de ${p.dureeTotale} ans${r.totalDroitsEntree > 0 ? `, après ${fmtEUR(r.totalDroitsEntree)} de frais` : ''}`} />
-          <Tuile ton="or" libelle="Revenu mensuel au terme" valeur={fmtEUR(r.revenuMensuelNetFinal)}
-            aide={`${fmtEUR(dernier.revenuAnnuelNet)} par an, ${net}`} />
           <Tuile libelle="Revenus perçus cumulés" valeur={fmtEUR(r.totalRevenusNets)} aide={`sur ${p.dureeTotale} ans, ${net}`} />
           <Tuile libelle="Si les revenus sont réinvestis" valeur={fmtEUR(r.capitalReinvestiFinal)}
             aide={`soit ${fmtEUR(r.gainReinvestissement)} de capital en plus, pour ${fmtEUR(r.revenuMensuelReinvestiFinal)} par mois ensuite`} />
         </div>
+      </Atelier>
 
         <Courbes titre="Évolution sur la durée" series={[
-          { nom: 'Capital investi', couleur: '#16433a', valeurs: r.rows.map(x => x.capitalInvesti) },
+          { nom: 'Capital investi', couleur: '#1f5a4d', valeurs: r.rows.map(x => x.capitalInvesti) },
           { nom: 'Capital, revenus réinvestis', couleur: '#c8703a', valeurs: r.rows.map(x => x.capitalReinvesti) },
           { nom: 'Revenus perçus cumulés', couleur: '#6b8aa0', valeurs: r.rows.map(x => x.revenusCumulesNets), pointille: true },
         ]} />
@@ -76,8 +77,7 @@ function Simulateur() {
           de frais au-delà des frais de souscription. Une SCPI est un placement de long terme,
           peu liquide ; ni le capital ni les revenus ne sont garantis.
         </p>
-      </div>
-    </div>
+    </>
   )
 }
 

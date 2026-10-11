@@ -1,7 +1,7 @@
 import { StrictMode, useState } from 'react'
 import { createRoot } from 'react-dom/client'
 import { simulePer, TRANCHES, PER_PLAFOND_MIN_2026, PER_PLAFOND_MAX_2026, type PerParams } from '../moteur/per'
-import { Champ, Choix, Courbes, Tuile, fmtEUR, fmtPct } from './ui'
+import { Atelier, Champ, Choix, Courbes, Tuile, Vedette, fmtEUR, fmtPct } from './ui'
 
 const DEFAUTS: PerParams = {
   revenusActivite: 45_000, tmi: 0.30, versementAnnuel: 3_000, plafondAvis: null,
@@ -16,50 +16,51 @@ function Simulateur() {
   const courbe = Array.from({ length: annees }, (_, i) => simulePer({ ...p, anneesAvantRetraite: i + 1 }))
 
   return (
-    <div className="simu">
-      <div className="panneau">
-        <h2>Votre situation</h2>
+    <>
+      <Atelier titre="Votre situation" reinitialiser={() => { setP(DEFAUTS); setAvis(false) }} hypotheses={<>
         <Choix libelle="Tranche marginale d'imposition" valeur={p.tmi}
           options={TRANCHES.map(t => ({ valeur: t, texte: fmtPct(t, 0) }))}
           onChange={v => setP(x => ({ ...x, tmi: v }))}
           aide="Elle figure sur votre avis d'impôt sous le nom de « taux marginal »." />
-        <Champ libelle="Versement annuel" valeur={p.versementAnnuel} onChange={v => setP(x => ({ ...x, versementAnnuel: v }))} unite="€/an" min={0} />
+        <Champ libelle="Versement annuel" valeur={p.versementAnnuel} onChange={v => setP(x => ({ ...x, versementAnnuel: v }))} unite="€/an" min={0} curseur={[0, 40_000, 500]} />
         <Choix libelle="Plafond de déduction" valeur={avis ? 'avis' : 'calcul'}
           options={[{ valeur: 'calcul', texte: 'Le calculer (salarié)' }, { valeur: 'avis', texte: 'Je connais celui de mon avis' }]}
           onChange={v => { setAvis(v === 'avis'); setP(x => ({ ...x, plafondAvis: v === 'avis' ? (x.plafondAvis ?? r.plafondCalcule) : null })) }} />
         {avis
           ? <Champ libelle="Plafond indiqué sur l'avis d'impôt" valeur={p.plafondAvis ?? r.plafondCalcule}
-              onChange={v => setP(x => ({ ...x, plafondAvis: v }))} unite="€" min={0}
+              onChange={v => setP(x => ({ ...x, plafondAvis: v }))} unite="€" min={0} curseur={[0, 100_000, 500]}
               aide="Rubrique « plafond épargne retraite » : il inclut les plafonds non utilisés des années précédentes." />
           : <Champ libelle="Revenus d'activité de l'an dernier" valeur={p.revenusActivite}
-              onChange={v => setP(x => ({ ...x, revenusActivite: v }))} unite="€/an" min={0}
+              onChange={v => setP(x => ({ ...x, revenusActivite: v }))} unite="€/an" min={0} curseur={[0, 300_000, 1_000]}
               aide="Salaires nets imposables, après la déduction de 10 % pour frais professionnels." />}
-        <Champ libelle="Âge" valeur={p.age} onChange={v => setP(x => ({ ...x, age: v }))} unite="ans" min={18} max={99} />
-        <Champ libelle="Années avant la retraite" valeur={p.anneesAvantRetraite} onChange={v => setP(x => ({ ...x, anneesAvantRetraite: v }))} unite="ans" min={0} max={50} />
-        <Champ libelle="Rendement du contrat" valeur={p.rendement * 100} onChange={v => setP(x => ({ ...x, rendement: v / 100 }))} unite="%/an" min={0} max={15}
+        <div className="paire">
+          <Champ libelle="Âge" valeur={p.age} onChange={v => setP(x => ({ ...x, age: v }))} unite="ans" min={18} max={99} curseur={[18, 75, 1]} />
+          <Champ libelle="Avant la retraite" valeur={p.anneesAvantRetraite} onChange={v => setP(x => ({ ...x, anneesAvantRetraite: v }))} unite="ans" min={0} max={50} curseur={[0, 45, 1]} />
+        </div>
+        <Champ libelle="Rendement du contrat" valeur={p.rendement * 100} onChange={v => setP(x => ({ ...x, rendement: v / 100 }))} unite="%/an" min={0} max={15} curseur={[0, 8, 0.1]}
           aide="Net de frais de gestion. Hypothèse constante, non garantie." />
-      </div>
-
-      <div className="resultats">
+      </>}>
         {!r.deductible && <div className="alerte">Depuis le 1er janvier 2026, les versements effectués à partir de 70 ans ne sont plus déductibles du revenu imposable.</div>}
         {r.deductible && r.depassement > 0 && (
           <div className="alerte">{fmtEUR(r.depassement)} de votre versement dépassent le plafond de déduction ({fmtEUR(r.plafondRetenu)}) et n'ouvrent droit à aucune économie d'impôt.</div>
         )}
+        <Vedette chiffres={[
+          { libelle: "Économie d'impôt", valeur: fmtEUR(r.economieAnnuelle), aide: `par an, soit ${fmtEUR(r.economieAnnuelle / 12)} par mois` },
+          { libelle: 'Coût réel du versement', valeur: fmtEUR(r.effortReelAnnuel),
+            aide: `${fmtEUR(r.effortReelMensuel)} par mois pour ${fmtEUR(p.versementAnnuel / 12)} épargnés` },
+        ]} />
         <div className="tuiles">
-          <Tuile ton="sombre" libelle="Économie d'impôt" valeur={fmtEUR(r.economieAnnuelle)}
-            aide={`par an, soit ${fmtEUR(r.economieAnnuelle / 12)} par mois`} />
-          <Tuile ton="or" libelle="Coût réel du versement" valeur={fmtEUR(r.effortReelAnnuel)}
-            aide={`${fmtEUR(r.effortReelMensuel)} par mois pour ${fmtEUR(p.versementAnnuel / 12)} épargnés`} />
           <Tuile libelle="Plafond de déduction retenu" valeur={fmtEUR(r.plafondRetenu)}
             aide={p.plafondAvis != null ? "celui de votre avis d'impôt" : `10 % des revenus, entre ${fmtEUR(PER_PLAFOND_MIN_2026)} et ${fmtEUR(PER_PLAFOND_MAX_2026)}`} />
           {annees > 0 && <Tuile libelle="Capital à la retraite" valeur={fmtEUR(r.capitalRetraite)}
             aide={`pour ${fmtEUR(r.totalVerse)} versés et ${fmtEUR(r.totalEconomies)} d'impôt économisé`} />}
         </div>
+      </Atelier>
 
         {annees > 1 && (
           <Courbes titre="Ce que le PER construit" series={[
             { nom: 'Capital du contrat', couleur: '#c8703a', valeurs: courbe.map(c => c.capitalRetraite) },
-            { nom: 'Versements cumulés', couleur: '#16433a', valeurs: courbe.map(c => c.totalVerse) },
+            { nom: 'Versements cumulés', couleur: '#1f5a4d', valeurs: courbe.map(c => c.totalVerse) },
             { nom: 'Impôt économisé cumulé', couleur: '#6b8aa0', valeurs: courbe.map(c => c.totalEconomies), pointille: true },
           ]} />
         )}
@@ -77,8 +78,7 @@ function Simulateur() {
           (dont l'achat de la résidence principale). Versements supposés constants, rendement
           net de frais constant, placés en milieu d'année.
         </p>
-      </div>
-    </div>
+    </>
   )
 }
 

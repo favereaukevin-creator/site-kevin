@@ -102,20 +102,22 @@ ${domaine('transmission', 'Transmission', "Préparer la suite, protéger vos pro
 }
 
 // ---------------------------------------------------------------- Simulateurs
-const outil = ({ href, icone, categorie, titre, texte, externe = false }) => `
+// Grandes cartes sombres : catégorie en petites capitales, titre en serif,
+// étiquettes, et un lien souligné d'un trait qui s'allonge au survol.
+const outil = ({ href, categorie, titre, texte, etiquettes = [], externe = false }) => `
         <a class="outil" href="${href}"${externe ? ' rel="noopener"' : ''}>
-          <div class="icone">${ICONES[icone]}</div>
           <span class="categorie">${categorie}</span>
           <h3>${titre}</h3>
           <p>${texte}</p>
-          <span class="lien">${externe ? 'Ouvrir sur Lignée' : 'Lancer le simulateur'} <span aria-hidden="true">→</span></span>
+          <span class="etiquettes">${etiquettes.map(e => `<span>${e}</span>`).join('')}</span>
+          <span class="lien">${externe ? 'Ouvrir sur Lignée' : 'Découvrir le simulateur'}<i aria-hidden="true"></i></span>
         </a>`
 
-const bientot = (icone, categorie, titre) => `
+const bientot = (categorie, titre, texte) => `
         <div class="outil outil--bientot">
-          <div class="icone">${ICONES[icone]}</div>
           <span class="categorie">${categorie}</span>
           <h3>${titre}</h3>
+          <p>${texte}</p>
           <span class="lien">En préparation</span>
         </div>`
 
@@ -125,23 +127,23 @@ const simulateurs = {
   description: 'Simulateurs patrimoniaux gratuits : capacité d’emprunt, SCPI, gain fiscal PER, acheter ou louer, droits de succession. Calculs faits dans votre navigateur, rien n’est transmis.',
   contenu: `
     <section class="bloc">
-      <div class="page-tete apparait">
+      <div class="page-tete page-tete--centre apparait">
         <p class="surtitre">Simulateurs</p>
         <h1>Des chiffres avant les décisions</h1>
         <p>Des outils gratuits pour se faire une première idée. Les calculs se font dans votre navigateur : rien n'est transmis, rien n'est conservé.</p>
       </div>
       <div class="outils apparait apparait-2">
-${outil({ href: '/simulateur-scpi.html', icone: 'scpi', categorie: 'Immobilier & revenus', titre: 'SCPI',
+${outil({ href: '/simulateur-scpi.html', categorie: 'Immobilier & revenus', titre: 'SCPI', etiquettes: ['Revenus', 'Réinvestissement'],
   texte: 'Capital investi et revenus perçus, avec un versement initial et des versements programmés, dividendes distribués ou réinvestis.' })}
-${outil({ href: '/simulateur-per.html', icone: 'per', categorie: 'Retraite & fiscalité', titre: 'Gain fiscal PER',
+${outil({ href: '/simulateur-per.html', categorie: 'Retraite & fiscalité', titre: 'Gain fiscal PER', etiquettes: ["Économie d'impôt", 'Plafond 2026'],
   texte: "Économie d'impôt d'un versement déductible, dans la limite du plafond 2026, et capital constitué à la retraite." })}
-${outil({ href: '/simulateur-acheter-louer.html', icone: 'maison', categorie: 'Résidence principale', titre: 'Acheter ou louer',
+${outil({ href: '/simulateur-acheter-louer.html', categorie: 'Résidence principale', titre: 'Acheter ou louer', etiquettes: ['Patrimoine', 'Année de bascule'],
   texte: "Le patrimoine du propriétaire et celui du locataire qui place son apport, comparés année après année." })}
-${outil({ href: LIGNEE + 'simulateur.html', icone: 'succession', categorie: 'Transmission', titre: 'Droits de succession',
-  texte: 'Droits dus par chaque héritier : abattements, barème du lien de parenté, assurance-vie avant et après 70 ans.', externe: true })}
-${outil({ href: '/simulateur-capacite-emprunt.html', icone: 'credit', categorie: 'Financement', titre: "Capacité d'emprunt",
+${outil({ href: '/simulateur-capacite-emprunt.html', categorie: 'Financement', titre: "Capacité d'emprunt", etiquettes: ['Endettement à 35 %', 'Prix accessible'],
   texte: "Montant empruntable et prix du bien accessible, selon la règle des 35 % d'endettement appliquée par les banques." })}
-${bientot('locatif', 'Immobilier & fiscalité', 'Investissement locatif')}
+${outil({ href: LIGNEE + 'simulateur.html', categorie: 'Transmission', titre: 'Droits de succession', etiquettes: ['Abattements', 'Assurance-vie'],
+  texte: 'Droits dus par chaque héritier : abattements, barème du lien de parenté, assurance-vie avant et après 70 ans.', externe: true })}
+${bientot('Immobilier & fiscalité', 'Investissement locatif', 'Rentabilité, fiscalité et effort d’épargne d’un bien mis en location.')}
       </div>
     </section>`,
 }
@@ -376,8 +378,8 @@ const pageSimu = ({ slug, titre, description, script, surtitre, intro }) => ({
   slug, titre, description, script,
   contenu: `
     <section class="bloc">
-      <p class="fil"><a href="/simulateurs.html">Simulateurs</a> / ${titre}</p>
-      <div class="page-tete" style="padding-top:18px">
+      <p class="fil fil--centre"><a href="/simulateurs.html">Simulateurs</a> / ${titre}</p>
+      <div class="page-tete page-tete--centre page-tete--simu">
         <p class="surtitre">${surtitre}</p>
         <h1>${titre}</h1>
         <p>${intro}</p>

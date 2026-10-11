@@ -1,6 +1,7 @@
-// Briques communes des simulateurs : champs de saisie, tuiles, courbes.
+// Briques communes des simulateurs : hypothèses à curseur, bandeau des chiffres
+// principaux, tuiles, courbes.
 
-import { useId, useMemo, useState, type ReactNode } from 'react'
+import { useId, useMemo, useState, type CSSProperties, type ReactNode } from 'react'
 
 const eur = new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'EUR', maximumFractionDigits: 0 })
 export const fmtEUR = (v: number) => (Number.isFinite(v) ? eur.format(Math.round(v)) : '—')
@@ -20,7 +21,8 @@ export function lireNombre(texte: string): number | null {
 
 const affiche = (v: number) => v.toLocaleString('fr-FR', { maximumFractionDigits: 2 })
 
-export function Champ({ libelle, valeur, onChange, unite, aide, min, max }: {
+/** Une hypothèse : libellé à gauche, valeur modifiable à droite, curseur dessous. */
+export function Champ({ libelle, valeur, onChange, unite, aide, min, max, curseur }: {
   libelle: string
   valeur: number
   onChange: (v: number) => void
@@ -28,28 +30,40 @@ export function Champ({ libelle, valeur, onChange, unite, aide, min, max }: {
   aide?: ReactNode
   min?: number
   max?: number
+  /** Bornes et pas du curseur ; la saisie au clavier peut aller au-delà, dans [min, max]. */
+  curseur?: [number, number, number]
 }) {
   const id = useId()
   const [texte, setTexte] = useState(affiche(valeur))
   const [focus, setFocus] = useState(false)
+  const borne = (n: number) => Math.min(max ?? Infinity, Math.max(min ?? -Infinity, n))
+  const position = curseur ? Math.min(100, Math.max(0, ((valeur - curseur[0]) / (curseur[1] - curseur[0])) * 100)) : 0
   return (
     <div className="champ">
-      <label htmlFor={id}>{libelle}</label>
-      <div className="saisie">
-        <input
-          id={id} type="text" inputMode="decimal" autoComplete="off"
-          value={focus ? texte : affiche(valeur)}
-          onFocus={() => { setTexte(affiche(valeur)); setFocus(true) }}
-          onBlur={() => setFocus(false)}
-          onChange={e => {
-            setTexte(e.target.value)
-            const n = lireNombre(e.target.value)
-            if (n === null) return
-            onChange(Math.min(max ?? Infinity, Math.max(min ?? -Infinity, n)))
-          }}
-        />
-        {unite && <span className="unite">{unite}</span>}
+      <div className="champ-ligne">
+        <label htmlFor={id}>{libelle}</label>
+        <span className="champ-valeur">
+          <input
+            id={id} type="text" inputMode="decimal" autoComplete="off"
+            size={Math.max(2, (focus ? texte : affiche(valeur)).length)}
+            value={focus ? texte : affiche(valeur)}
+            onFocus={() => { setTexte(affiche(valeur)); setFocus(true) }}
+            onBlur={() => setFocus(false)}
+            onChange={e => {
+              setTexte(e.target.value)
+              const n = lireNombre(e.target.value)
+              if (n !== null) onChange(borne(n))
+            }}
+          />
+          {unite && <span className="unite">{unite}</span>}
+        </span>
       </div>
+      {curseur && (
+        <input type="range" className="curseur" aria-label={libelle} min={curseur[0]} max={curseur[1]} step={curseur[2]}
+          value={Math.min(curseur[1], Math.max(curseur[0], valeur))}
+          style={{ '--position': `${position}%` } as CSSProperties}
+          onChange={e => onChange(borne(Number(e.target.value)))} />
+      )}
       {aide && <div className="aide">{aide}</div>}
     </div>
   )
@@ -65,7 +79,7 @@ export function Choix<T extends string | number>({ libelle, valeur, options, onC
   const id = useId()
   return (
     <div className="champ">
-      <label htmlFor={id}>{libelle}</label>
+      <label htmlFor={id} className="champ-titre">{libelle}</label>
       <div className="saisie">
         <select id={id} value={String(valeur)}
           onChange={e => onChange(options.find(o => String(o.valeur) === e.target.value)!.valeur)}>
@@ -78,14 +92,55 @@ export function Choix<T extends string | number>({ libelle, valeur, options, onC
   )
 }
 
-export function Tuile({ libelle, valeur, aide, ton }: {
+/** Le simulateur : les hypothèses à gauche, la projection à droite, dans un même écrin. */
+export function Atelier({ titre = 'Hypothèses', reinitialiser, hypotheses, children }: {
+  titre?: string
+  reinitialiser?: () => void
+  hypotheses: ReactNode
+  children: ReactNode
+}) {
+  return (
+    <div className="atelier">
+      <div className="panneau">
+        <div className="panneau-tete">
+          <h2>{titre}</h2>
+          {reinitialiser && <button type="button" className="reinitialiser" onClick={reinitialiser}>↺ Réinitialiser</button>}
+        </div>
+        {hypotheses}
+      </div>
+      <div className="projection">
+        <h2>Projection</h2>
+        {children}
+      </div>
+    </div>
+  )
+}
+
+/** Sous-partie du panneau d'hypothèses. */
+export const Rubrique = ({ children }: { children: ReactNode }) => <h3 className="rubrique">{children}</h3>
+
+/** Le bandeau sombre des deux chiffres principaux. */
+export function Vedette({ chiffres }: { chiffres: Array<{ libelle: string; valeur: ReactNode; aide?: ReactNode }> }) {
+  return (
+    <div className="vedette">
+      {chiffres.map(c => (
+        <div key={c.libelle} className="vedette-chiffre">
+          <div className="vedette-libelle">{c.libelle}</div>
+          <div className="vedette-valeur">{c.valeur}</div>
+          {c.aide && <div className="vedette-aide">{c.aide}</div>}
+        </div>
+      ))}
+    </div>
+  )
+}
+
+export function Tuile({ libelle, valeur, aide }: {
   libelle: string
   valeur: ReactNode
   aide?: ReactNode
-  ton?: 'sombre' | 'or'
 }) {
   return (
-    <div className={`tuile${ton ? ` tuile--${ton}` : ''}`}>
+    <div className="tuile">
       <div className="tuile-libelle">{libelle}</div>
       <div className="tuile-valeur">{valeur}</div>
       {aide && <div className="tuile-aide">{aide}</div>}
@@ -141,7 +196,7 @@ export function Courbes({ titre, series, marqueur }: {
         }}>
         {graduations.map(v => (
           <g key={v}>
-            <line x1={g} x2={W - d} y1={y(v)} y2={y(v)} stroke={v === 0 ? '#b9bfb9' : '#e6e8e3'} />
+            <line x1={g} x2={W - d} y1={y(v)} y2={y(v)} stroke={v === 0 ? '#cfc6b8' : '#ebe6dc'} />
             <text x={g - 8} y={y(v) + 4} textAnchor="end" fontSize="11" fill="#7a827d">{abrege(v)}</text>
           </g>
         ))}
@@ -153,6 +208,15 @@ export function Courbes({ titre, series, marqueur }: {
             <line x1={x(marqueur.annee - 1)} x2={x(marqueur.annee - 1)} y1={h} y2={H - b} stroke="#c8703a" strokeDasharray="4 4" />
             <text x={x(marqueur.annee - 1) + 6} y={h + 12} fontSize="11.5" fill="#a55a2b">{marqueur.texte}</text>
           </g>
+        )}
+        <defs>
+          <linearGradient id="aire" x1="0" x2="0" y1="0" y2="1">
+            <stop offset="0" stopColor={series[0]?.couleur} stopOpacity=".22" />
+            <stop offset="1" stopColor={series[0]?.couleur} stopOpacity="0" />
+          </linearGradient>
+        </defs>
+        {series[0] && n > 1 && (
+          <path fill="url(#aire)" d={`M${x(0)},${y(Math.max(bas, 0))} ${series[0].valeurs.map((v, i) => `L${x(i).toFixed(1)},${y(v).toFixed(1)}`).join(' ')} L${x(n - 1)},${y(Math.max(bas, 0))} Z`} />
         )}
         {series.map(s => (
           <path key={s.nom} fill="none" stroke={s.couleur} strokeWidth={2.5} strokeLinejoin="round"
