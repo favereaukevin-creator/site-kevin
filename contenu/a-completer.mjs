@@ -16,7 +16,7 @@ export const A_COMPLETER = {
   /** Lien de la page de réservation de Google Agenda (agenda de rendez-vous),
    *  copié depuis « Partager » : https://calendar.app.google/… Vide = pas de
    *  bouton de réservation, seulement le téléphone et le courriel. */
-  reservation: '',
+  reservation: 'https://calendar.app.google/o8XpK1Z2Z37ZuLDv8',
   /** Partenaires (assureurs, sociétés de gestion, promoteurs, banques) : noms. */
   partenaires: [
     'Activimmo',
