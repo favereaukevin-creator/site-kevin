@@ -43,7 +43,7 @@ h1, h2, h3 { letter-spacing: -.025em; line-height: 1.12; font-weight: 800; }
 .logo-nom { display: block; font-family: 'Fraunces', Georgia, 'Times New Roman', serif; font-weight: 600; font-size: 23px; letter-spacing: -.01em; color: var(--vert); }
 .logo small { display: block; font-size: 9.5px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--cuivre); margin-top: 4px; }
 .logo--embleme { color: var(--vert); }
-.logo--embleme svg { width: 44px; height: 44px; display: block; transition: transform .3s; }
+.logo--embleme svg { width: 58px; height: 58px; display: block; transition: transform .3s; }
 .logo--embleme:hover svg { transform: translateY(-2px); }
 .nav { display: flex; gap: 6px; }
 .nav a { text-decoration: none; font-size: 14.5px; font-weight: 600; color: var(--doux); padding: 8px 12px; border-radius: 999px; transition: background .2s, color .2s; }
@@ -416,6 +416,7 @@ details.detail summary { cursor: pointer; font-weight: 700; padding: 14px 0; }
   .entete .bloc { flex-wrap: wrap; height: auto; padding-top: 12px; padding-bottom: 12px; gap: 10px; }
   .entete .btn { padding: 8px 12px; font-size: 13.5px; }
   .logo-nom { font-size: 20px; }
+  .logo--embleme svg { width: 48px; height: 48px; }
   .logo small { display: none; }
   .nav { order: 3; width: 100%; overflow-x: auto; margin: 0 -8px; gap: 2px; scrollbar-width: none; }
   .nav::-webkit-scrollbar { display: none; }
