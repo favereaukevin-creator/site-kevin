@@ -33,8 +33,15 @@ const NAV = [
   { href: '/a-propos.html', texte: 'À propos' },
 ]
 
-/** Logo : carré vert « kf » et nom. */
+/** Nom en serif, et l'intitulé en petites capitales cuivre (pied de page). */
 export const logo = (sousTitre = true) => `<a class="logo" href="/"><span><span class="logo-nom">${NOM}</span>${sousTitre ? `<small>${METIER}</small>` : ''}</span></a>`
+
+/**
+ * Emblème du haut de page, choisi par Kevin le 14/10/2026 : une voûte et sa clé
+ * en cuivre — ce qui fait tenir l'ensemble. Sans nom ni intitulé, qui figurent
+ * déjà dans la page ; le nom reste lu par les lecteurs d'écran.
+ */
+export const embleme = () => `<a class="logo logo--embleme" href="/" aria-label="${NOM} — accueil"><svg viewBox="0 0 48 48" fill="none" aria-hidden="true"><path d="M9 41V24a15 15 0 0 1 30 0v17M6 41h36" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/><path d="M15 41V24a9 9 0 0 1 18 0v17" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" opacity=".5"/><path d="M21.2 9.3h5.6l-1.1 5.6h-3.4z" fill="#c8703a"/></svg></a>`
 
 /** Icônes au trait, dessinées à la main pour rester légères. */
 const trait = (d) => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${d}</svg>`
@@ -64,7 +71,7 @@ const pied = () => `
     <div class="bloc">
       <div class="pied-grille">
         <div>
-          ${logo()}
+          ${logo(false)}
           <p style="margin:0;max-width:36ch">${METIER}. Un accompagnement clair et chiffré, pour les particuliers et les chefs d'entreprise.</p>
         </div>
         <div>
@@ -116,13 +123,13 @@ export function page({ slug, titre, description, contenu, script = null }) {
   <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&display=swap" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,300;1,9..144,400&display=swap" />
   <link rel="stylesheet" href="/src/styles/site.css" />
 </head>
 <body>
   <header class="entete">
     <div class="bloc">
-      ${logo()}
+      ${embleme()}
       <nav class="nav" aria-label="Navigation principale">
         ${nav(url)}
       </nav>

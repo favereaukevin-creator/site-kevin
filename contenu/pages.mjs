@@ -21,20 +21,26 @@ const accueil = {
   description: `${NOM}, ${METIER.toLowerCase()} : une approche globale de votre patrimoine — épargne, immobilier, retraite, transmission. Simulateurs gratuits et prise de rendez-vous.`,
   contenu: `
     <section class="bloc accueil-heros">
-      <div class="accueil-centre">
-        <h1 class="accueil-nom apparait">${NOM}</h1>
-        <p class="accueil-metier apparait">${METIER}</p>
-        <span class="accueil-filet apparait apparait-2" aria-hidden="true"></span>
+      <div class="accueil-texte">
+        <p class="accueil-domaines apparait">Épargne · Immobilier · Retraite · Transmission</p>
+        <h1 class="accueil-titre apparait">Votre patrimoine,<br><em>pensé</em> comme un tout.</h1>
         <p class="accueil-chapo apparait apparait-2">
-          Une approche <span class="accent">globale</span> et méthodique, bâtie autour de votre
-          situation et de vos projets — épargne, immobilier, retraite et transmission — pour
-          les particuliers comme pour les entreprises.
+          Une approche globale et méthodique, bâtie autour de votre situation et de vos projets,
+          pour les particuliers comme pour les entreprises.
         </p>
-        <div class="accueil-actions apparait apparait-3">
+        <div class="accueil-actions apparait apparait-2">
           <a class="btn btn--pilule" href="/rendez-vous.html">Prendre rendez-vous <span aria-hidden="true">→</span></a>
           <a class="lien-fleche" href="/simulateurs.html">Découvrir les simulateurs <span aria-hidden="true">→</span></a>
         </div>
+        <blockquote class="accueil-citation apparait apparait-3">
+          « J'apporte à mes clients ce que j'aurais aimé trouver : un vrai conseil, qui part
+          de leur situation et non d'un produit. »
+        </blockquote>
       </div>
+      ${A_COMPLETER.photo ? `<figure class="accueil-portrait apparait apparait-2">
+        <span class="accueil-disque"><img src="${A_COMPLETER.photo}" alt="Portrait de ${NOM}" width="290" height="290" /></span>
+        <figcaption>${NOM}</figcaption>
+      </figure>` : ''}
     </section>
 
     <section class="section section--blanche">
