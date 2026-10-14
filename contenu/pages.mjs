@@ -32,15 +32,11 @@ const accueil = {
           <a class="btn btn--pilule" href="/rendez-vous.html">Prendre rendez-vous <span aria-hidden="true">→</span></a>
           <a class="lien-fleche" href="/simulateurs.html">Découvrir les simulateurs <span aria-hidden="true">→</span></a>
         </div>
-        <blockquote class="accueil-citation apparait apparait-3">
-          « J'apporte à mes clients ce que j'aurais aimé trouver : un vrai conseil, qui part
-          de leur situation et non d'un produit. »
-        </blockquote>
       </div>
-      ${A_COMPLETER.photo ? `<figure class="accueil-portrait apparait apparait-2">
-        <span class="accueil-disque"><img src="${A_COMPLETER.photo}" alt="Portrait de ${NOM}" width="290" height="290" /></span>
-        <figcaption>${NOM}</figcaption>
-      </figure>` : ''}
+      <blockquote class="accueil-citation apparait apparait-3">
+        <p>« J'apporte à mes clients ce que j'aurais aimé trouver : un vrai conseil, qui part de leur situation et non d'un produit. »</p>
+        <footer>${NOM}</footer>
+      </blockquote>
     </section>
 
     <section class="section section--blanche">
@@ -209,12 +205,15 @@ const aPropos = {
   description: `Parcours, méthode et cadre d'exercice de ${NOM}, ${METIER.toLowerCase()}.`,
   contenu: `
     <section class="bloc">
-      <div class="page-tete apparait">
-        <div class="profil">
-          <div class="profil-photo${A_COMPLETER.photo ? ' avec-photo' : ''}">${A_COMPLETER.photo ? `<img src="${A_COMPLETER.photo}" alt="Portrait de ${NOM}" />` : initiales}</div>
-          <div><p class="surtitre" style="margin:0">À propos</p><h1 style="margin:4px 0 0">${NOM}</h1></div>
+      <div class="apropos-tete apparait">
+        <div>
+          <p class="surtitre">À propos</p>
+          <h1>${NOM}</h1>
+          <p class="apropos-metier">${METIER}</p>
         </div>
-        <p>${METIER}</p>
+        ${A_COMPLETER.photo
+          ? `<img class="apropos-photo" src="${A_COMPLETER.photo}" alt="Portrait de ${NOM}" width="260" height="260" />`
+          : `<div class="profil-photo">${initiales}</div>`}
       </div>
 ${fiche('Parcours', parcours)}
 ${fiche('Philosophie de conseil', `
